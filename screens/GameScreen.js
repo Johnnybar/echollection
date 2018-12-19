@@ -12,20 +12,18 @@ import {
 } from 'react-native';
 import {Button, ButtonGroup} from 'react-native-elements';
 import {ExpoLinksView} from '@expo/samples';
-
 import {WebBrowser} from 'expo';
-
 import {MonoText} from '../components/StyledText';
 
 const sounds = {
-  bell: require('../assets/sounds/bell.wav'),
+  bell: require('../assets/sounds/bell.mp3'),
   snare: require('../assets/sounds/snare.wav'),
   stab: require('../assets/sounds/stab.wav'),
   kick: require('../assets/sounds/kick.mp3'),
   hat: require('../assets/sounds/hat.mp3')
 };
 //only imported to make sure all sounds are available during runtime
-const soundsArr = [require('../assets/sounds/bell.wav'), require('../assets/sounds/snare.wav'), require('../assets/sounds/stab.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
+const soundsArr = [require('../assets/sounds/bell.mp3'), require('../assets/sounds/snare.wav'), require('../assets/sounds/stab.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
 
 let playTimes = 0;
 let playArr = [];
@@ -43,11 +41,13 @@ export default class LinksScreen extends React.Component {
       snare: 1,
       kick: 1,
       hat: 1,
-      stab: 1
+      stab: 1,
+      speed: 600,
+      level: 4
     }
   }
 
-  _prepareSound = async()=> {
+  _prepareSound = async () => {
     await Expo.Audio.setIsEnabledAsync(true);
     await Expo.Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
@@ -55,31 +55,29 @@ export default class LinksScreen extends React.Component {
       allowsRecordingIOS: false,
       interruptionModeIOS: Expo.Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       shouldDuckAndroid: false,
-      interruptionModeAndroid: Expo.Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      interruptionModeAndroid: Expo.Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX
     });
   }
 
-  _play = async (prop) => {
+//plays individual sounds
+  _play = async (prop, selected) => {
     if (prop) {
       try {
         //lower opacity of current instrument and return it to regular after 100 milliseconds
-          let key = this.state.current;
-          playArr.push(key)
-          this.setState(prevState =>({
-            [key]:  0.3
-          }))
-        setTimeout(()=>{
+        let key = this.state.current;
+        playArr.push(key)
+        this.setState(prevState => ({[key]: 0.3}))
+        setTimeout(() => {
           this.setState({[key]: 1})
           playTimes++
         }, 100)
-
         const soundObject = new Expo.Audio.Sound()
         await soundObject.loadAsync(sounds[prop]);
         await soundObject.playAsync();
         //play a random sound every 800 milliseconds
-        setTimeout(()=>{
+        setTimeout(() => {
           this._randomPlay()
-        }, 600)
+        }, this.state.speed)
         // this.isPlaying = false;
       } catch (error) {
         console.log('>>>>>>>> ALARM PLAY', error);
@@ -87,7 +85,7 @@ export default class LinksScreen extends React.Component {
     }
   }
 
-//generate random instrument selection
+  //generate random instrument selection
   _getRandomIntInclusive = (obj) => {
     var result;
     var count = 0;
@@ -97,43 +95,44 @@ export default class LinksScreen extends React.Component {
   return result;
   };
 
+//runs on clicking play button
   _randomPlay = async (prop) => {
     try {
-        let chosen = this._getRandomIntInclusive(sounds)
-        //choose current instrument
-        this.setState({
-          current: chosen,
-        }, () => {
-          if(playTimes < 4){
+      let chosen = this._getRandomIntInclusive(sounds)
+      //choose current instrument
+      this.setState({
+        current: chosen
+      }, () => {
+        if (playTimes < this.state.level) {
           //run play
-          this._play(chosen)
+          this._play(chosen, 600)
         }
-        });
-    }
-    catch (error) {
+      });
+    } catch (error) {
       console.log('>>>>>>>> ALARM PLAY', error);
     }
   }
 
-_playerInput = (prop) =>{
-  if(answersArr.length === playArr.length-1){
-    if(answersArr.every((value, index) => value === playArr[index])){
-      Alert.alert('YES!')
-      answersArr=[]
-      playArr=[]
-    }
-    else{
-      Alert.alert('NO! Press play to try again')
-      answersArr=[]
-      playArr=[]
+  _playerInput = async (prop) => {
+    const soundObject = new Expo.Audio.Sound()
+    await soundObject.loadAsync(sounds[prop]);
+    await soundObject.playAsync();
+    if (answersArr.length === playArr.length - 1) {
+      if (answersArr.every((value, index) => value === playArr[index])) {
+        Alert.alert('YES! Good job')
+        answersArr = []
+        playArr = []
+      } else {
+        Alert.alert('NO! Press play to try again')
+        answersArr = []
+        playArr = []
+      }
+    } else {
+      answersArr.push(prop)
     }
   }
-  else{
-    answersArr.push(prop)
-  }
-}
 
-  componentDidMount(){
+  componentDidMount() {
     this._prepareSound()
   }
 
@@ -142,22 +141,22 @@ _playerInput = (prop) =>{
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
-          <Button title="Play" style = {styles.playButton} onPress={() =>{
-            this._randomPlay();
-            playTimes = 0;
-            playArr = [];
-          }} iconContainerStyle={{
-            marginRight: 10
-          }} titleStyle={{
-            fontWeight: '700'
-          }} buttonStyle={{
-            backgroundColor: 'rgba(90, 154, 230, 1)',
-            borderColor: 'transparent',
-            borderWidth: 0,
-            borderRadius: 30
-          }} containerStyle={{
-            width: 130
-          }}/>
+          <Button title="Play" style={styles.playButton} onPress={() => {
+              this._randomPlay();
+              playTimes = 0;
+              playArr = [];
+            }} iconContainerStyle={{
+              marginRight: 10
+            }} titleStyle={{
+              fontWeight: '700'
+            }} buttonStyle={{
+              backgroundColor: 'rgba(90, 154, 230, 1)',
+              borderColor: 'transparent',
+              borderWidth: 0,
+              borderRadius: 30
+            }} containerStyle={{
+              width: 130
+            }}/>
           <View style={styles.buttonsContainer}>
             <Button title="BELL" style={[
                 styles.roundButton, {
@@ -165,8 +164,7 @@ _playerInput = (prop) =>{
                 }
               ]} onPress={() => {
                 this._playerInput('bell')
-              }}
-               iconContainerStyle={{
+              }} iconContainerStyle={{
                 marginRight: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -184,8 +182,7 @@ _playerInput = (prop) =>{
                 }
               ]} onPress={() => {
                 this._playerInput('snare')
-            }}
-            iconContainerStyle={{
+              }} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -203,8 +200,7 @@ _playerInput = (prop) =>{
                 }
               ]} onPress={() => {
                 this._playerInput('kick')
-              }}
-                 iconContainerStyle={{
+              }} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -222,8 +218,7 @@ _playerInput = (prop) =>{
                 }
               ]} onPress={() => {
                 this._playerInput('hat')
-              }}
-                iconContainerStyle={{
+              }} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -241,8 +236,7 @@ _playerInput = (prop) =>{
                 }
               ]} onPress={() => {
                 this._playerInput('stab')
-              }}
-                iconContainerStyle={{
+              }} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -255,6 +249,25 @@ _playerInput = (prop) =>{
                 width: 150
               }}/>
           </View>
+          <Button title="Harder" style={styles.playButton} onPress={() => {
+            this.setState({
+              level: 8,
+              speed: 400
+            })
+            playTimes = 0;
+            playArr = [];
+          }} iconContainerStyle={{
+            marginRight: 10
+          }} titleStyle={{
+            fontWeight: '700'
+          }} buttonStyle={{
+            backgroundColor: 'rgba(90, 154, 230, 1)',
+            borderColor: 'transparent',
+            borderWidth: 0,
+            borderRadius: 30
+          }} containerStyle={{
+            width: 130
+          }}/>
 
         </View>
 
@@ -278,7 +291,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center'
   },
-  playButton:{
+  playButton: {
     width: '100%'
   },
   roundButton: {
