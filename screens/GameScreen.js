@@ -26,7 +26,8 @@ const sounds = {
 };
 const soundsArr = [require('../assets/sounds/bell.wav'), require('../assets/sounds/snare.wav'), require('../assets/sounds/stab.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
 
-let playTimes = 1;
+let playTimes = 0;
+let answerArr = [];
 export default class LinksScreen extends React.Component {
   static navigationOptions = {
     title: 'Game'
@@ -43,20 +44,31 @@ export default class LinksScreen extends React.Component {
     }
   }
 
+
+
   _play = async (prop) => {
     if (prop) {
       try {
+        //lower opacity of current instrument and return it to regular after 100 milliseconds
           let key = this.state.current;
-
-          console.log(otherKeys);
-          console.log(key, 'this is key');
+          answerArr.push(key)
+          console.log(answerArr);
           this.setState(prevState =>({
-            [key]: 0.3
+            [key]:  0.3
           }))
+        setTimeout(()=>{
+          this.setState({[key]: 1})
+          playTimes++
+        }, 100)
 
         const soundObject = new Expo.Audio.Sound()
         await soundObject.loadAsync(sounds[prop]);
         await soundObject.playAsync();
+        //play a random sound every 800 milliseconds
+        setTimeout(()=>{
+          this._randomPlay()
+        }, 800)
+
         // this.isPlaying = false;
       } catch (error) {
         console.log('>>>>>>>> ALARM PLAY', error);
@@ -64,6 +76,7 @@ export default class LinksScreen extends React.Component {
     }
   }
 
+//generate random instrument selection
   _getRandomIntInclusive = (obj) => {
     var result;
     var count = 0;
@@ -75,16 +88,23 @@ export default class LinksScreen extends React.Component {
 
   _randomPlay = async (prop) => {
     try {
+        let chosen = this._getRandomIntInclusive(sounds)
+        //choose current instrument
+        this.setState({
+          current: chosen,
+        }, () => {
+          if(playTimes < 6){
+          //run play
+          this._play(chosen)
+        }
+        });
 
-      let chosen = this._getRandomIntInclusive(sounds)
-      console.log(chosen, 'this is chosen');
-      this.setState({
-        current: chosen,
-      }, () => {
-        this._play(chosen)
-      });
+
+
       // this.isPlaying = false;
-    } catch (error) {
+    }
+
+    catch (error) {
       console.log('>>>>>>>> ALARM PLAY', error);
     }
 
@@ -96,7 +116,11 @@ export default class LinksScreen extends React.Component {
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
           <View style={styles.buttonsContainer}>
-            <Button title="Random" onPress={() => this._randomPlay()} iconContainerStyle={{
+            <Button title="Random" onPress={() =>{
+              this._randomPlay();
+              playTimes = 0;
+              answerArr = [];
+            }} iconContainerStyle={{
                 marginRight: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -112,7 +136,7 @@ export default class LinksScreen extends React.Component {
                 styles.roundButton, {
                   opacity: this.state.bell
                 }
-              ]} onPress={() => this._play('bell')} iconContainerStyle={{
+              ]} onPress={() => {console.log('helllooo')}} iconContainerStyle={{
                 marginRight: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -128,7 +152,7 @@ export default class LinksScreen extends React.Component {
                 styles.roundButton, {
                   opacity: this.state.snare
                 }
-              ]} onPress={() => this._play('snare')} iconContainerStyle={{
+              ]} onPress={() => {console.log('helllooo')}} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -144,7 +168,7 @@ export default class LinksScreen extends React.Component {
                 styles.roundButton, {
                   opacity: this.state.kick
                 }
-              ]} onPress={() => this._play('kick')} iconContainerStyle={{
+              ]} onPress={() => {console.log('helllooo')}} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -160,7 +184,7 @@ export default class LinksScreen extends React.Component {
                 styles.roundButton, {
                   opacity: this.state.hat
                 }
-              ]} onPress={() => this._play('hat')} iconContainerStyle={{
+              ]} onPress={() => {console.log('helllooo')}} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
@@ -176,7 +200,7 @@ export default class LinksScreen extends React.Component {
                 styles.roundButton, {
                   opacity: this.state.stab
                 }
-              ]} onPress={() => this._play('stab')} iconContainerStyle={{
+              ]} onPress={() => {console.log('helllooo')}} iconContainerStyle={{
                 marginLeft: 10
               }} titleStyle={{
                 fontWeight: '700'
