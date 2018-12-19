@@ -70,7 +70,7 @@ export default class LinksScreen extends React.Component {
         setTimeout(() => {
           this.setState({[key]: 1})
           playTimes++
-        }, 100)
+        }, 50)
         const soundObject = new Expo.Audio.Sound()
         await soundObject.loadAsync(sounds[prop]);
         await soundObject.playAsync();
@@ -158,7 +158,7 @@ export default class LinksScreen extends React.Component {
               width: 130
             }}/>
           <View style={styles.buttonsContainer}>
-            <Button title="BELL" style={[
+            <Button title="COWBELL" style={[
                 styles.roundButton, {
                   opacity: this.state.bell
                 }
@@ -249,10 +249,29 @@ export default class LinksScreen extends React.Component {
                 width: 150
               }}/>
           </View>
-          <Button title="Harder" style={styles.playButton} onPress={() => {
+          <Button title="Medium Level" style={styles.playButton} onPress={() => {
+            this.setState({
+              level: 6,
+              speed: 400
+            })
+            playTimes = 0;
+            playArr = [];
+          }} iconContainerStyle={{
+            marginRight: 10
+          }} titleStyle={{
+            fontWeight: '700'
+          }} buttonStyle={{
+            backgroundColor: 'rgba(90, 154, 230, 1)',
+            borderColor: 'transparent',
+            borderWidth: 0,
+            borderRadius: 30
+          }} containerStyle={{
+            width: 130
+          }}/>
+          <Button title="Hardest Level" style={styles.playButton} onPress={() => {
             this.setState({
               level: 8,
-              speed: 400
+              speed: 200
             })
             playTimes = 0;
             playArr = [];
@@ -292,7 +311,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   playButton: {
-    width: '100%'
+    width: '100%',
+    marginBottom: 30,
+    marginTop: 30
   },
   roundButton: {
     margin: 10
