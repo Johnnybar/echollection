@@ -115,23 +115,23 @@ export default class LinksScreen extends React.Component {
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
+          <Button title="Play" style = {styles.playButton} onPress={() =>{
+            this._randomPlay();
+            playTimes = 0;
+            answerArr = [];
+          }} iconContainerStyle={{
+            marginRight: 10
+          }} titleStyle={{
+            fontWeight: '700'
+          }} buttonStyle={{
+            backgroundColor: 'rgba(90, 154, 230, 1)',
+            borderColor: 'transparent',
+            borderWidth: 0,
+            borderRadius: 30
+          }} containerStyle={{
+            width: 130
+          }}/>
           <View style={styles.buttonsContainer}>
-            <Button title="Random" onPress={() =>{
-              this._randomPlay();
-              playTimes = 0;
-              answerArr = [];
-            }} iconContainerStyle={{
-                marginRight: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
-                backgroundColor: 'rgba(90, 154, 230, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 30
-              }} containerStyle={{
-                width: 130
-              }}/>
             <Button title="BELL" style={[
                 styles.roundButton, {
                   opacity: this.state.bell
@@ -235,6 +235,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center'
+  },
+  playButton:{
+    width: '100%'
   },
   roundButton: {
     margin: 10
