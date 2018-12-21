@@ -63,31 +63,6 @@ class LinksScreen extends React.Component {
     });
   }
 
-//plays individual sounds
-  _play = async (prop, selected) => {
-    if (prop) {
-      try {
-        console.log('here');
-        //lower opacity of current instrument and return it to regular after 100 milliseconds
-        let key = this.state.current;
-        playArr.push(key)
-        this.setState(prevState => ({[key]: 0.3}))
-        setTimeout(() => {
-          this.setState({[key]: 1})
-          playTimes++
-        }, 50)
-        const soundObject = new Expo.Audio.Sound()
-        await soundObject.loadAsync(sounds[prop]);
-        await soundObject.playAsync();
-        //play a random sound every 800 milliseconds
-        setTimeout(() => {
-          this._randomPlay()
-        }, this.props.speed)
-      } catch (error) {
-        console.log('>>>>>>>> ALARM PLAY', error);
-      }
-    }
-  }
 
   //generate random instrument selection
   _getRandomIntInclusive = (obj) => {
@@ -111,23 +86,62 @@ class LinksScreen extends React.Component {
           //run play
           this._play(chosen, this.props.speed)
         }
+        else{
+console.log('in random else');
+        }
+
       });
     } catch (error) {
       console.log('>>>>>>>> ALARM PLAY', error);
     }
   }
 
+  //plays individual sounds
+    _play = async (prop, selected) => {
+      if (prop) {
+        try {
+          let key = this.state.current;
+          playArr.push(key)
+          console.log('in play', playArr);
+          //Blinking effect - lower opacity of current instrument and return it to regular after 100 milliseconds
+          this.setState(prevState => ({[key]: 0.3}))
+          setTimeout(() => {
+            this.setState({[key]: 1})
+            playTimes++
+          }, 50)
+          //End of blinking effect
+          const soundObject = new Expo.Audio.Sound()
+          await soundObject.loadAsync(sounds[prop]);
+          await soundObject.playAsync();
+          //play a random sound every ___ milliseconds
+          setTimeout(() => {
+            this._randomPlay()
+          }, this.props.speed)
+        } catch (error) {
+          console.log('>>>>>>>> ALARM PLAY', error);
+        }
+      }
+    }
+
   _playerInput = async (prop) => {
+    console.log(answersArr.length, playArr.length, playTimes);
     const soundObject = new Expo.Audio.Sound()
     await soundObject.loadAsync(sounds[prop]);
     await soundObject.playAsync();
     if (answersArr.length === playArr.length - 1) {
+
       if (answersArr.every((value, index) => value === playArr[index])) {
-        Alert.alert('YES! Good job')
+        this.props.setLevel(this.props.level+1, this.props.speed-50);
+        setTimeout(()=>{
         answersArr = []
-        playArr = []
+        playTimes = 0;
+        playArr = [];
+        this._randomPlay();
+      }, 1000)
+
       } else {
         Alert.alert('NO! Press play to try again')
+        this.props.setLevel(4, 600)
         answersArr = []
         playArr = []
       }
@@ -137,7 +151,7 @@ class LinksScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state);
+
     this._prepareSound()
     this.props.setLevel(4, 600 )
   }
@@ -299,7 +313,6 @@ class LinksScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('in mapStateToProps', state.level);
     return {
       level: state.level,
       speed: state.speed
