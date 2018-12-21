@@ -10,6 +10,9 @@ import {
   Animated,
   Alert
 } from 'react-native';
+import { connect } from 'react-redux'
+import { gameChangeLevel } from '../actions/actions';
+
 import {Button, ButtonGroup} from 'react-native-elements';
 import {ExpoLinksView} from '@expo/samples';
 import {WebBrowser} from 'expo';
@@ -29,7 +32,9 @@ let playTimes = 0;
 let playArr = [];
 let answersArr = [];
 
-export default class LinksScreen extends React.Component {
+
+
+class LinksScreen extends React.Component {
   static navigationOptions = {
     title: 'Game'
   };
@@ -42,8 +47,7 @@ export default class LinksScreen extends React.Component {
       kick: 1,
       hat: 1,
       stab: 1,
-      speed: 600,
-      level: 4
+
     }
   }
 
@@ -63,6 +67,7 @@ export default class LinksScreen extends React.Component {
   _play = async (prop, selected) => {
     if (prop) {
       try {
+        console.log('here');
         //lower opacity of current instrument and return it to regular after 100 milliseconds
         let key = this.state.current;
         playArr.push(key)
@@ -77,8 +82,7 @@ export default class LinksScreen extends React.Component {
         //play a random sound every 800 milliseconds
         setTimeout(() => {
           this._randomPlay()
-        }, this.state.speed)
-        // this.isPlaying = false;
+        }, this.props.speed)
       } catch (error) {
         console.log('>>>>>>>> ALARM PLAY', error);
       }
@@ -103,9 +107,9 @@ export default class LinksScreen extends React.Component {
       this.setState({
         current: chosen
       }, () => {
-        if (playTimes < this.state.level) {
+        if (playTimes < this.props.level) {
           //run play
-          this._play(chosen, 600)
+          this._play(chosen, this.props.speed)
         }
       });
     } catch (error) {
@@ -133,14 +137,19 @@ export default class LinksScreen extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.state);
     this._prepareSound()
+    this.props.setLevel(4, 600 )
   }
 
   render() {
+
     return (<View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
+          <Text>Level here - {this.props.level}, Speed here - {this.props.speed}</Text>
+
           <Button title="Play" style={styles.playButton} onPress={() => {
               this._randomPlay();
               playTimes = 0;
@@ -250,10 +259,7 @@ export default class LinksScreen extends React.Component {
               }}/>
           </View>
           <Button title="Medium Level" style={styles.playButton} onPress={() => {
-            this.setState({
-              level: 6,
-              speed: 400
-            })
+            this.props.setLevel(6, 400);
             playTimes = 0;
             playArr = [];
           }} iconContainerStyle={{
@@ -269,10 +275,7 @@ export default class LinksScreen extends React.Component {
             width: 130
           }}/>
           <Button title="Hardest Level" style={styles.playButton} onPress={() => {
-            this.setState({
-              level: 8,
-              speed: 200
-            })
+            this.props.setLevel(8, 200);
             playTimes = 0;
             playArr = [];
           }} iconContainerStyle={{
@@ -294,6 +297,24 @@ export default class LinksScreen extends React.Component {
     </View>);
   }
 }
+
+const mapStateToProps = (state) => {
+  console.log('in mapStateToProps', state.level);
+    return {
+      level: state.level,
+      speed: state.speed
+    }
+
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setLevel: (level, speed) => dispatch(gameChangeLevel(level, speed))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LinksScreen)
+
 
 const styles = StyleSheet.create({
   container: {
