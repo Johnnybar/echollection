@@ -32,8 +32,6 @@ let playTimes = 0;
 let playArr = [];
 let answersArr = [];
 
-
-
 class LinksScreen extends React.Component {
   static navigationOptions = {
     title: 'Game'
@@ -47,7 +45,6 @@ class LinksScreen extends React.Component {
       kick: 1,
       hat: 1,
       stab: 1,
-
     }
   }
 
@@ -151,9 +148,8 @@ console.log('in random else');
   }
 
   componentDidMount() {
-
     this._prepareSound()
-    this.props.setLevel(4, 600 )
+    this.props.setLevel(4, 800 )
   }
 
   render() {
@@ -272,39 +268,7 @@ console.log('in random else');
                 width: 150
               }}/>
           </View>
-          <Button title="Medium Level" style={styles.playButton} onPress={() => {
-            this.props.setLevel(6, 400);
-            playTimes = 0;
-            playArr = [];
-          }} iconContainerStyle={{
-            marginRight: 10
-          }} titleStyle={{
-            fontWeight: '700'
-          }} buttonStyle={{
-            backgroundColor: 'rgba(90, 154, 230, 1)',
-            borderColor: 'transparent',
-            borderWidth: 0,
-            borderRadius: 30
-          }} containerStyle={{
-            width: 130
-          }}/>
-          <Button title="Hardest Level" style={styles.playButton} onPress={() => {
-            this.props.setLevel(8, 200);
-            playTimes = 0;
-            playArr = [];
-          }} iconContainerStyle={{
-            marginRight: 10
-          }} titleStyle={{
-            fontWeight: '700'
-          }} buttonStyle={{
-            backgroundColor: 'rgba(90, 154, 230, 1)',
-            borderColor: 'transparent',
-            borderWidth: 0,
-            borderRadius: 30
-          }} containerStyle={{
-            width: 130
-          }}/>
-
+          
         </View>
 
       </ScrollView>
@@ -317,7 +281,6 @@ const mapStateToProps = (state) => {
       level: state.level,
       speed: state.speed
     }
-
 };
 
 const mapDispatchToProps = (dispatch) => {
