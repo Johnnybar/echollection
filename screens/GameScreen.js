@@ -74,6 +74,9 @@ class LinksScreen extends React.Component {
 //runs on clicking play button
   _randomPlay = async (prop) => {
     try {
+      //When round playing starts
+
+      this.setState({currentlyPlaying: true, success: false, firstRoundOver: true})
       let chosen = this._getRandomIntInclusive(sounds)
       //choose current instrument
       this.setState({
@@ -84,6 +87,8 @@ class LinksScreen extends React.Component {
           this._play(chosen, this.props.speed)
         }
         else{
+          //When round playing ends
+          this.setState({currentlyPlaying: false})
 console.log('in random else');
         }
 
@@ -121,6 +126,13 @@ console.log('in random else');
     }
 
   _playerInput = async (prop) => {
+    if(this.state.currentlyPlaying === true){
+      Alert.alert('Please wait')
+    }
+    else if (playArr.length === 0){
+      Alert.alert('Sounds can only be played after play was clicked')
+    }
+    else {
     console.log(answersArr.length, playArr.length, playTimes);
     const soundObject = new Expo.Audio.Sound()
     await soundObject.loadAsync(sounds[prop]);
@@ -128,23 +140,26 @@ console.log('in random else');
     if (answersArr.length === playArr.length - 1) {
 
       if (answersArr.every((value, index) => value === playArr[index])) {
+        this.setState({success: true})
         this.props.setLevel(this.props.level+1, this.props.speed-50);
         setTimeout(()=>{
         answersArr = []
         playTimes = 0;
         playArr = [];
         this._randomPlay();
-      }, 1000)
+      }, 2000)
 
       } else {
         Alert.alert('NO! Press play to try again')
-        this.props.setLevel(4, 600)
+        this.setState({firstRoundOver: false})
         answersArr = []
         playArr = []
+        this.props.setLevel(4, 800)
       }
     } else {
       answersArr.push(prop)
     }
+  }
   }
 
   componentDidMount() {
@@ -159,8 +174,8 @@ console.log('in random else');
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
           <Text>Level here - {this.props.level}, Speed here - {this.props.speed}</Text>
-
-          <Button title="Play" style={styles.playButton} onPress={() => {
+          {this.state.success === true && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
+          {this.state.firstRoundOver !== true && <Button title="Play" style={styles.playButton} onPress={() => {
               this._randomPlay();
               playTimes = 0;
               playArr = [];
@@ -175,7 +190,7 @@ console.log('in random else');
               borderRadius: 30
             }} containerStyle={{
               width: 130
-            }}/>
+            }}/>}
           <View style={styles.buttonsContainer}>
             <Button title="COWBELL" style={[
                 styles.roundButton, {
@@ -268,7 +283,7 @@ console.log('in random else');
                 width: 150
               }}/>
           </View>
-          
+
         </View>
 
       </ScrollView>
@@ -297,7 +312,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff'
   },
-
+  success:{
+    backgroundColor: 'green',
+    color: 'white'
+  },
   contentContainer: {
     paddingTop: 30
   },
