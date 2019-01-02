@@ -25,8 +25,9 @@ const sounds = {
   kick: require('../assets/sounds/kick.mp3'),
   hat: require('../assets/sounds/hat.mp3')
 };
+
 //only imported to make sure all sounds are available during runtime
-const soundsArr = [require('../assets/sounds/bell.mp3'), require('../assets/sounds/snare.wav'), require('../assets/sounds/stab.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
+const soundsArr = [require('../assets/sounds/bell.mp3'), require('../assets/sounds/jingle.mp3'), require('../assets/sounds/snare.wav'), require('../assets/sounds/stab.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
 
 let playTimes = 0;
 let playArr = [];
@@ -45,6 +46,7 @@ class LinksScreen extends React.Component {
       kick: 1,
       hat: 1,
       stab: 1,
+      jingle: 1
     }
   }
 
@@ -71,16 +73,25 @@ class LinksScreen extends React.Component {
   return result;
   };
 
-//runs on clicking play button
+//runs on clicking play button or when last round successful
   _randomPlay = async (prop) => {
+  //add new instrument when getting to level 6
+    if(this.props.level > 5){
+      sounds['jingle'] = require('../assets/sounds/jingle.mp3')
+    }
+    //delete this instrument from sounds if going back to level 4
+    else {
+      delete sounds.jingle
+    }
     try {
       //When round playing starts
-
-      this.setState({currentlyPlaying: true, success: false, firstRoundOver: true})
       let chosen = this._getRandomIntInclusive(sounds)
       //choose current instrument
       this.setState({
-        current: chosen
+        current: chosen,
+        currentlyPlaying: true,
+         success: false,
+         firstRoundOver: true
       }, () => {
         if (playTimes < this.props.level) {
           //run play
@@ -89,7 +100,7 @@ class LinksScreen extends React.Component {
         else{
           //When round playing ends
           this.setState({currentlyPlaying: false})
-console.log('in random else', this.state);
+console.log('in random else');
         }
 
       });
@@ -281,6 +292,24 @@ console.log('in random else', this.state);
               }} containerStyle={{
                 width: 150
               }}/>
+            {this.props.level > 5 && <Button title="JINGLE" style={[
+                styles.roundButton, {
+                  opacity: this.state.jingle
+                }
+              ]} onPress={() => {
+                this._playerInput('stab')
+              }} iconContainerStyle={{
+                marginLeft: 10
+              }} titleStyle={{
+                fontWeight: '700'
+              }} buttonStyle={{
+                backgroundColor: 'rgba(55, 204, 201, 1)',
+                borderColor: 'transparent',
+                borderWidth: 0,
+                borderRadius: 30
+              }} containerStyle={{
+                width: 150
+              }}/> }
           </View>
 
         </View>
@@ -309,14 +338,20 @@ export default connect(mapStateToProps, mapDispatchToProps)(LinksScreen)
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    display: 'flex'
+
   },
   success:{
     backgroundColor: 'green',
-    color: 'white'
+    color: 'white',
+    fontSize: 40,
+    justifyContent: 'center',
+    textAlign: 'center'
   },
   contentContainer: {
-    paddingTop: 30
+    paddingTop: 30,
+
   },
   buttonsContainer: {
     display: 'flex',
