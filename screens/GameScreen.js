@@ -89,7 +89,7 @@ class LinksScreen extends React.Component {
         else{
           //When round playing ends
           this.setState({currentlyPlaying: false})
-console.log('in random else');
+console.log('in random else', this.state);
         }
 
       });
@@ -168,14 +168,13 @@ console.log('in random else');
   }
 
   render() {
-
     return (<View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
           <Text>Level here - {this.props.level}, Speed here - {this.props.speed}</Text>
           {this.state.success === true && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
-          {this.state.firstRoundOver !== true && <Button title="Play" style={styles.playButton} onPress={() => {
+            <Button title="Play" style={[styles.playButton, this.state.firstRoundOver === true ? styles.hiddenPlay : styles.visiblePlay]} onPress={() => {
               this._randomPlay();
               playTimes = 0;
               playArr = [];
@@ -190,7 +189,7 @@ console.log('in random else');
               borderRadius: 30
             }} containerStyle={{
               width: 130
-            }}/>}
+            }}/>
           <View style={styles.buttonsContainer}>
             <Button title="COWBELL" style={[
                 styles.roundButton, {
@@ -329,6 +328,12 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 30,
     marginTop: 30
+  },
+  hiddenPlay: {
+    opacity: 0,
+  },
+  visiblePlay:{
+    opacity: 1,
   },
   roundButton: {
     margin: 10
