@@ -183,7 +183,7 @@ console.log('in random else');
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}></View>
         <View style={styles.container}>
-          <Text>Level here - {this.props.level}, Speed here - {this.props.speed}</Text>
+          <View style={styles.progressContainer}><Text style={styles.progressIndicator}>Current Level: {this.props.level - 3} {"\n"} Current Speed: {this.props.speed/1000} Seconds</Text></View>
           {this.state.success === true && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
             <Button title="Play" style={[styles.playButton, this.state.firstRoundOver === true ? styles.hiddenPlay : styles.visiblePlay]} onPress={() => {
               this._randomPlay();
@@ -216,7 +216,7 @@ console.log('in random else');
                 backgroundColor: 'rgba(90, 154, 230, 1)',
                 borderColor: 'transparent',
                 borderWidth: 0,
-                borderRadius: 30
+                borderRadius: 100
               }} containerStyle={{
                 width: 130
               }}/>
@@ -342,6 +342,15 @@ const styles = StyleSheet.create({
     display: 'flex'
 
   },
+  progressContainer:{
+    backgroundColor: 'black'
+  },
+  progressIndicator:{
+    textAlign: 'center',
+    padding: 10,
+    color: '#ffffff',
+    lineHeight: 30
+  },
   success:{
     backgroundColor: 'green',
     color: 'white',
@@ -352,12 +361,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 30,
 
-  },
-  buttonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center'
   },
   playButton: {
     width: '100%',
@@ -370,8 +373,15 @@ const styles = StyleSheet.create({
   visiblePlay:{
     opacity: 1,
   },
+  buttonsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
+  },
   roundButton: {
-    margin: 10
+    margin: 10,
+    
   },
   welcomeContainer: {
     alignItems: 'center',
