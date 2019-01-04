@@ -76,7 +76,7 @@ class LinksScreen extends React.Component {
 //runs on clicking play button or when last round successful
   _randomPlay = async (prop) => {
   //add new instrument when getting to level 6
-    if(this.props.level > 5){
+    if(this.props.level > 7){
       sounds['jingle'] = require('../assets/sounds/jingle.mp3')
     }
     //delete this instrument from sounds if going back to level 4
@@ -90,8 +90,7 @@ class LinksScreen extends React.Component {
       this.setState({
         current: chosen,
         currentlyPlaying: true,
-         success: false,
-         firstRoundOver: true
+         success: false
       }, () => {
         if (playTimes < this.props.level) {
           //run play
@@ -162,7 +161,6 @@ console.log('in random else');
 
       } else {
         Alert.alert('NO! Press play to try again')
-        this.setState({firstRoundOver: false})
         answersArr = []
         playArr = []
         this.props.setLevel(4, 800)
@@ -185,132 +183,122 @@ console.log('in random else');
         <View style={styles.container}>
           <View style={styles.progressContainer}><Text style={styles.progressIndicator}>Current Level: {this.props.level - 3} {"\n"} Current Speed: {this.props.speed/1000} Seconds</Text></View>
           {this.state.success === true && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
-            <Button title="Play" style={[styles.playButton, this.state.firstRoundOver === true ? styles.hiddenPlay : styles.visiblePlay]} onPress={() => {
-              this._randomPlay();
-              playTimes = 0;
-              playArr = [];
-            }} iconContainerStyle={{
-              marginRight: 10
-            }} titleStyle={{
-              fontWeight: '700'
-            }} buttonStyle={{
-              backgroundColor: 'rgba(90, 154, 230, 1)',
-              borderColor: 'transparent',
-              borderWidth: 0,
-              borderRadius: 30
-            }} containerStyle={{
-              width: 130
-            }}/>
+
           <View style={styles.buttonsContainer}>
-            <Button title="COWBELL" style={[
-                styles.roundButton, {
-                  opacity: this.state.bell
-                }
-              ]} onPress={() => {
-                this._playerInput('bell')
-              }} iconContainerStyle={{
-                marginRight: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
-                backgroundColor: 'rgba(90, 154, 230, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 100
-              }} containerStyle={{
-                width: 130
-              }}/>
-            <Button title="SNARE" style={[
-                styles.roundButton, {
-                  opacity: this.state.snare
-                }
-              ]} onPress={() => {
-                this._playerInput('snare')
-              }} iconContainerStyle={{
-                marginLeft: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
-                backgroundColor: 'rgba(199, 43, 98, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 30
-              }} containerStyle={{
-                width: 150
-              }}/>
-            <Button title="KICK" style={[
-                styles.roundButton, {
-                  opacity: this.state.kick
-                }
-              ]} onPress={() => {
+            <Button title="KICK"
+              raised
+            rounded
+            onPress={() => {
                 this._playerInput('kick')
-              }} iconContainerStyle={{
-                marginLeft: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
+              }}
+              textStyle={{ fontSize: 11, fontWeight: '800'}}
+                buttonStyle={{
                 backgroundColor: 'rgba(50, 173, 62, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 30
-              }} containerStyle={{
-                width: 150
+                height: 94,
+                width: 94,
+                borderRadius: 47,
+                opacity: this.state.kick
               }}/>
-            <Button title="HAT" style={[
-                styles.roundButton, {
-                  opacity: this.state.hat
-                }
-              ]} onPress={() => {
+            <Button title="COWBELL"
+              raised
+              rounded
+               onPress={() => {
+                this._playerInput('bell')
+              }}
+              textStyle={{ fontSize: 11, fontWeight: '800'}}
+               buttonStyle={{
+                backgroundColor: 'rgba(163, 77, 11, 1)',
+                height: 94,
+                width: 94,
+                borderRadius: 47,
+
+                opacity: this.state.bell
+              }} />
+            <Button title="SNARE"
+              raised
+              rounded
+               onPress={() => {
+                this._playerInput('snare')
+              }} textStyle={{ fontSize: 11, fontWeight: '800'}}
+               buttonStyle={{
+                backgroundColor: 'rgba(199, 43, 98, 1)',
+                height: 94,
+                width: 94,
+                borderRadius: 47,
+                opacity: this.state.snare
+              }}/>
+
+            </View>
+            <View style={styles.buttonsContainer}>
+            {/*PLAY BUTTON*/}
+              <Button title="Play"
+                raised
+                rounded
+                onPress={() => {
+                this._randomPlay();
+                playTimes = 0;
+                playArr = [];
+              }}
+              textStyle={{ fontSize: 17, fontWeight: '800'}}
+              buttonStyle={{
+                backgroundColor: 'rgba(94, 154, 230, 1)',
+                height: 110,
+                width: 110,
+                borderRadius: 55
+              }}/>
+            </View>
+              <View style={styles.buttonsContainer}>
+
+            <Button title="HAT"
+              raised
+              rounded
+              onPress={() => {
                 this._playerInput('hat')
-              }} iconContainerStyle={{
-                marginLeft: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
+              }}
+                textStyle={{ fontSize: 11, fontWeight: '800'}}
+               buttonStyle={{
                 backgroundColor: 'rgba(255, 140, 0, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 30
-              }} containerStyle={{
-                width: 150
-              }}/>
-            <Button title="STAB" style={[
-                styles.roundButton, {
-                  opacity: this.state.stab
-                }
-              ]} onPress={() => {
+                height: 94,
+                width: 94,
+                borderRadius: 47,
+                opacity: this.state.hat
+              }} />
+            <Button title="STAB"
+              raised
+              rounded
+               onPress={() => {
                 this._playerInput('stab')
-              }} iconContainerStyle={{
-                marginLeft: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
+              }}
+                textStyle={{ fontSize: 11, fontWeight: '800'}}
+               buttonStyle={{
                 backgroundColor: 'rgba(234, 144, 244, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 30
-              }} containerStyle={{
-                width: 150
-              }}/>
-            {this.props.level > 5 && <Button title="JINGLE" style={[
-                styles.roundButton, {
-                  opacity: this.state.jingle
+                height: 94,
+                width: 94,
+                borderRadius: 47,
+                opacity: this.state.stab
+              }}
+              />
+              {this.props.level > 7 &&
+
+                <Button title="JINGLE"
+                  raised
+                  rounded
+                  onPress={() => {
+                    this._playerInput('jingle')
+                  }}
+                  textStyle={{ fontSize: 11, fontWeight: '800'}}
+                  buttonStyle={{
+                    backgroundColor: 'rgba(55, 204, 201, 1)',
+                    height: 94,
+                    width: 94,
+                    borderRadius: 47,
+                    opacity: this.state.jingle
+
+                  }} />
                 }
-              ]} onPress={() => {
-                this._playerInput('stab')
-              }} iconContainerStyle={{
-                marginLeft: 10
-              }} titleStyle={{
-                fontWeight: '700'
-              }} buttonStyle={{
-                backgroundColor: 'rgba(55, 204, 201, 1)',
-                borderColor: 'transparent',
-                borderWidth: 0,
-                borderRadius: 30
-              }} containerStyle={{
-                width: 150
-              }}/> }
-          </View>
+              </View>
+
+
 
         </View>
 
@@ -354,7 +342,7 @@ const styles = StyleSheet.create({
   success:{
     backgroundColor: 'green',
     color: 'white',
-    fontSize: 40,
+    fontSize: 30,
     justifyContent: 'center',
     textAlign: 'center'
   },
@@ -363,25 +351,21 @@ const styles = StyleSheet.create({
 
   },
   playButton: {
-    width: '100%',
-    marginBottom: 30,
-    marginTop: 30
+
+    marginBottom: 10,
+    marginTop: 10
   },
-  hiddenPlay: {
-    opacity: 0,
-  },
-  visiblePlay:{
-    opacity: 1,
-  },
+
   buttonsContainer: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20
   },
   roundButton: {
-    margin: 10,
-    
+
   },
   welcomeContainer: {
     alignItems: 'center',
