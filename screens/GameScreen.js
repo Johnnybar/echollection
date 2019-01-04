@@ -75,10 +75,16 @@ class LinksScreen extends React.Component {
 
 //runs on clicking play button or when last round successful
   _randomPlay = async (prop) => {
-  //add new instrument when getting to level 6
+  //add new instrument when getting to level 5 and 8
 
     this.props.level > 8 ? sounds['jingle'] = require('../assets/sounds/jingle.mp3') : delete sounds.jingle;
     this.props.level > 5 ? sounds['snare'] =  require('../assets/sounds/snare.wav') : delete sounds.snare;
+    if( this.props.level > 12){
+      this.setState({gameWon: true})
+      answersArr = []
+      playArr = []
+      this.props.setLevel(4, 800)
+  }
     try {
       //When round playing starts
       let chosen = this._getRandomIntInclusive(sounds)
@@ -95,7 +101,7 @@ class LinksScreen extends React.Component {
         else{
           //When round playing ends
           this.setState({currentlyPlaying: false})
-console.log('this was played: ',playArr, 'these are the current available sounds: ', sounds);
+          console.log('this was played: ',playArr, 'these are the current available sounds: ', sounds);
         }
 
       });
@@ -110,15 +116,15 @@ console.log('this was played: ',playArr, 'these are the current available sounds
         try {
           let key = this.state.current;
           playArr.push(key)
-          const soundObject = new Expo.Audio.Sound()
-          await soundObject.loadAsync(sounds[prop]);
-          await soundObject.playAsync();
           //Blinking effect - lower opacity of current instrument and return it to regular after 100 milliseconds
           this.setState(prevState => ({[key]: 0.3}))
           setTimeout(() => {
             this.setState({[key]: 1})
             playTimes++
-          }, 50)
+          }, 200)
+          const soundObject = new Expo.Audio.Sound()
+          await soundObject.loadAsync(sounds[prop]);
+          await soundObject.playAsync();
           //play a random sound every ___ milliseconds
           setTimeout(() => {
             this._randomPlay()
@@ -179,9 +185,10 @@ console.log('this was played: ',playArr, 'these are the current available sounds
     return (<View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}></View>
-        <View style={styles.container}>
+        {this.state.gameWon === true && <Text style={styles.success}>YOU WON THE GAME, CONGRATS!</Text>}
+        {this.state.gameWon !== true && <View style={styles.container}>
           <View style={styles.progressContainer}><Text style={styles.progressIndicator}>Current Level: {this.props.level - 3} {"\n"} Current Speed: {this.props.speed/1000} Seconds</Text></View>
-          {this.state.success === true && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
+          {this.state.success === true && this.props.level<12  && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
 
           <Button title="next"
             textStyle={{ fontSize: 10, fontWeight: '400'}}
@@ -313,7 +320,7 @@ console.log('this was played: ',playArr, 'these are the current available sounds
 
 
 
-        </View>
+        </View>}
 
       </ScrollView>
     </View>);
