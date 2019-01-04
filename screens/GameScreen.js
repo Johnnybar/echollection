@@ -20,14 +20,14 @@ import {MonoText} from '../components/StyledText';
 
 const sounds = {
   bell: require('../assets/sounds/bell.mp3'),
-  snare: require('../assets/sounds/snare.wav'),
-  stab: require('../assets/sounds/stab.wav'),
+
+  crash: require('../assets/sounds/crash.wav'),
   kick: require('../assets/sounds/kick.mp3'),
   hat: require('../assets/sounds/hat.mp3')
 };
 
 //only imported to make sure all sounds are available during runtime
-const soundsArr = [require('../assets/sounds/bell.mp3'), require('../assets/sounds/jingle.mp3'), require('../assets/sounds/snare.wav'), require('../assets/sounds/stab.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
+const soundsArr = [require('../assets/sounds/bell.mp3'), require('../assets/sounds/jingle.mp3'), require('../assets/sounds/snare.wav'), require('../assets/sounds/crash.wav'), require('../assets/sounds/kick.mp3'), require('../assets/sounds/hat.mp3')];
 
 let playTimes = 0;
 let playArr = [];
@@ -45,7 +45,7 @@ class LinksScreen extends React.Component {
       snare: 1,
       kick: 1,
       hat: 1,
-      stab: 1,
+      crash: 1,
       jingle: 1
     }
   }
@@ -76,13 +76,9 @@ class LinksScreen extends React.Component {
 //runs on clicking play button or when last round successful
   _randomPlay = async (prop) => {
   //add new instrument when getting to level 6
-    if(this.props.level > 7){
-      sounds['jingle'] = require('../assets/sounds/jingle.mp3')
-    }
-    //delete this instrument from sounds if going back to level 4
-    else {
-      delete sounds.jingle
-    }
+
+    this.props.level > 8 ? sounds['jingle'] = require('../assets/sounds/jingle.mp3') : delete sounds.jingle;
+    this.props.level > 5 ? sounds['snare'] =  require('../assets/sounds/snare.wav') : delete sounds.snare;
     try {
       //When round playing starts
       let chosen = this._getRandomIntInclusive(sounds)
@@ -99,7 +95,7 @@ class LinksScreen extends React.Component {
         else{
           //When round playing ends
           this.setState({currentlyPlaying: false})
-console.log('in random else');
+console.log('this was played: ',playArr, 'these are the current available sounds: ', sounds);
         }
 
       });
@@ -114,25 +110,35 @@ console.log('in random else');
         try {
           let key = this.state.current;
           playArr.push(key)
-          console.log('in play', playArr);
+          const soundObject = new Expo.Audio.Sound()
+          await soundObject.loadAsync(sounds[prop]);
+          await soundObject.playAsync();
           //Blinking effect - lower opacity of current instrument and return it to regular after 100 milliseconds
           this.setState(prevState => ({[key]: 0.3}))
           setTimeout(() => {
             this.setState({[key]: 1})
             playTimes++
           }, 50)
-          //End of blinking effect
-          const soundObject = new Expo.Audio.Sound()
-          await soundObject.loadAsync(sounds[prop]);
-          await soundObject.playAsync();
           //play a random sound every ___ milliseconds
           setTimeout(() => {
             this._randomPlay()
           }, this.props.speed)
+          //End of blinking effect
         } catch (error) {
           console.log('>>>>>>>> ALARM PLAY', error);
         }
       }
+    }
+
+    _afterSuccessfulTurn = async()=>{
+      this.setState({success: true})
+      this.props.setLevel(this.props.level+1, this.props.speed-50);
+      setTimeout(()=>{
+      answersArr = []
+      playTimes = 0;
+      playArr = [];
+      this._randomPlay();
+    }, 2000)
     }
 
   _playerInput = async (prop) => {
@@ -143,21 +149,14 @@ console.log('in random else');
       Alert.alert('Sounds can only be played after play was clicked')
     }
     else {
-    console.log(answersArr.length, playArr.length, playTimes);
+    // console.log(answersArr.length, playArr.length, playTimes);
     const soundObject = new Expo.Audio.Sound()
     await soundObject.loadAsync(sounds[prop]);
     await soundObject.playAsync();
     if (answersArr.length === playArr.length - 1) {
 
       if (answersArr.every((value, index) => value === playArr[index])) {
-        this.setState({success: true})
-        this.props.setLevel(this.props.level+1, this.props.speed-50);
-        setTimeout(()=>{
-        answersArr = []
-        playTimes = 0;
-        playArr = [];
-        this._randomPlay();
-      }, 2000)
+        this._afterSuccessfulTurn()
 
       } else {
         Alert.alert('NO! Press play to try again')
@@ -173,7 +172,7 @@ console.log('in random else');
 
   componentDidMount() {
     this._prepareSound()
-    this.props.setLevel(4, 800 )
+    this.props.setLevel(4, 800)
   }
 
   render() {
@@ -184,13 +183,24 @@ console.log('in random else');
           <View style={styles.progressContainer}><Text style={styles.progressIndicator}>Current Level: {this.props.level - 3} {"\n"} Current Speed: {this.props.speed/1000} Seconds</Text></View>
           {this.state.success === true && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
 
+          <Button title="next"
+            textStyle={{ fontSize: 10, fontWeight: '400'}}
+            buttonStyle={{
+              height: 30,
+              width: 30,
+              borderRadius: 10,
+              padding: 0
+            }}
+            onPress={() => {
+              this._afterSuccessfulTurn()
+            }}/>
           <View style={styles.buttonsContainer}>
             <Button title="KICK"
               raised
             rounded
             onPress={() => {
-                this._playerInput('kick')
-              }}
+             this._playerInput('kick')
+           }}
               textStyle={{ fontSize: 11, fontWeight: '800'}}
                 buttonStyle={{
                 backgroundColor: 'rgba(50, 173, 62, 1)',
@@ -214,7 +224,7 @@ console.log('in random else');
 
                 opacity: this.state.bell
               }} />
-            <Button title="SNARE"
+            {this.props.level > 5 && <Button title="SNARE"
               raised
               rounded
                onPress={() => {
@@ -226,19 +236,22 @@ console.log('in random else');
                 width: 94,
                 borderRadius: 47,
                 opacity: this.state.snare
-              }}/>
+              }}/>}
 
             </View>
             <View style={styles.buttonsContainer}>
+
             {/*PLAY BUTTON*/}
+
               <Button title="Play"
                 raised
                 rounded
                 onPress={() => {
+                  if(this.state.currentlyPlaying !== true){
                 this._randomPlay();
                 playTimes = 0;
                 playArr = [];
-              }}
+              }}}
               textStyle={{ fontSize: 17, fontWeight: '800'}}
               buttonStyle={{
                 backgroundColor: 'rgba(94, 154, 230, 1)',
@@ -263,11 +276,11 @@ console.log('in random else');
                 borderRadius: 47,
                 opacity: this.state.hat
               }} />
-            <Button title="STAB"
+            <Button title="CRASH"
               raised
               rounded
                onPress={() => {
-                this._playerInput('stab')
+                this._playerInput('crash')
               }}
                 textStyle={{ fontSize: 11, fontWeight: '800'}}
                buttonStyle={{
@@ -275,10 +288,10 @@ console.log('in random else');
                 height: 94,
                 width: 94,
                 borderRadius: 47,
-                opacity: this.state.stab
+                opacity: this.state.crash
               }}
               />
-              {this.props.level > 7 &&
+              {this.props.level > 8 &&
 
                 <Button title="JINGLE"
                   raised
