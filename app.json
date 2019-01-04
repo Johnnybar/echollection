@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "echollection",
-    "slug": "echollection",
+    "name": "echollect",
+    "slug": "echollect",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": [

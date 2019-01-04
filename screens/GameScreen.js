@@ -20,7 +20,6 @@ import {MonoText} from '../components/StyledText';
 
 const sounds = {
   bell: require('../assets/sounds/bell.mp3'),
-
   crash: require('../assets/sounds/crash.wav'),
   kick: require('../assets/sounds/kick.mp3'),
   hat: require('../assets/sounds/hat.mp3')
@@ -79,12 +78,8 @@ class LinksScreen extends React.Component {
 
     this.props.level > 8 ? sounds['jingle'] = require('../assets/sounds/jingle.mp3') : delete sounds.jingle;
     this.props.level > 5 ? sounds['snare'] =  require('../assets/sounds/snare.wav') : delete sounds.snare;
-    if( this.props.level > 12){
-      this.setState({gameWon: true})
-      answersArr = []
-      playArr = []
-      this.props.setLevel(4, 800)
-  }
+    // When winning the game
+
     try {
       //When round playing starts
       let chosen = this._getRandomIntInclusive(sounds)
@@ -92,7 +87,7 @@ class LinksScreen extends React.Component {
       this.setState({
         current: chosen,
         currentlyPlaying: true,
-         success: false
+         success: false,
       }, () => {
         if (playTimes < this.props.level) {
           //run play
@@ -112,7 +107,12 @@ class LinksScreen extends React.Component {
 
   //plays individual sounds
     _play = async (prop, selected) => {
-      if (prop) {
+      if(this.props.level > 12){
+        this.setState({gameWon: true, playButtonOn: true, currentlyPlaying: false})
+        // soundObject.unloadAsync();
+        return
+      }
+      else if (prop) {
         try {
           let key = this.state.current;
           playArr.push(key)
@@ -122,7 +122,7 @@ class LinksScreen extends React.Component {
             this.setState({[key]: 1})
             playTimes++
           }, 200)
-          const soundObject = new Expo.Audio.Sound()
+           const soundObject = new Expo.Audio.Sound()
           await soundObject.loadAsync(sounds[prop]);
           await soundObject.playAsync();
           //play a random sound every ___ milliseconds
@@ -146,6 +146,13 @@ class LinksScreen extends React.Component {
       this._randomPlay();
     }, 2000)
     }
+    _restartGame =async() =>{
+      this.setState({gameWon: false}, ()=>{
+      answersArr = []
+      playArr = []
+      this.props.setLevel(4, 800)})
+
+    }
 
   _playerInput = async (prop) => {
     if(this.state.currentlyPlaying === true){
@@ -165,7 +172,7 @@ class LinksScreen extends React.Component {
         this._afterSuccessfulTurn()
 
       } else {
-        Alert.alert('NO! Press play to try again')
+        Alert.alert('Nope...Press play to try again')
         answersArr = []
         playArr = []
         this.props.setLevel(4, 800)
@@ -184,8 +191,8 @@ class LinksScreen extends React.Component {
   render() {
     return (<View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}></View>
-        {this.state.gameWon === true && <Text style={styles.success}>YOU WON THE GAME, CONGRATS!</Text>}
+        {this.state.gameWon === true && <View><Text style={styles.success}>YOU WON THE GAME, CONGRATS!</Text>
+      <Button title='Start Again' onPress={()=>{this._restartGame()}}></Button></View>}
         {this.state.gameWon !== true && <View style={styles.container}>
           <View style={styles.progressContainer}><Text style={styles.progressIndicator}>Current Level: {this.props.level - 3} {"\n"} Current Speed: {this.props.speed/1000} Seconds</Text></View>
           {this.state.success === true && this.props.level<12  && <Text style={styles.success}>GREAT JOB, HERE COMES THE NEXT ONE</Text>}
@@ -246,7 +253,7 @@ class LinksScreen extends React.Component {
               }}/>}
 
             </View>
-            <View style={styles.buttonsContainer}>
+            <Animated.View style={styles.buttonsContainer}>
 
             {/*PLAY BUTTON*/}
 
@@ -259,14 +266,9 @@ class LinksScreen extends React.Component {
                 playTimes = 0;
                 playArr = [];
               }}}
-              textStyle={{ fontSize: 17, fontWeight: '800'}}
-              buttonStyle={{
-                backgroundColor: 'rgba(94, 154, 230, 1)',
-                height: 110,
-                width: 110,
-                borderRadius: 55
-              }}/>
-            </View>
+              textStyle={[styles.playButtonText, this.state.currentlyPlaying === true ? styles.playButtonOff : styles.playButtonOn]}
+              buttonStyle={[styles.playButtonBg, this.state.currentlyPlaying === true ? styles.playButtonOff : styles.playButtonOn]}/>
+            </Animated.View>
               <View style={styles.buttonsContainer}>
 
             <Button title="HAT"
@@ -367,13 +369,23 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 0,
 
   },
-  playButton: {
-
-    marginBottom: 10,
-    marginTop: 10
+  playButtonBg:{
+    backgroundColor: 'rgba(94, 154, 230, 1)',
+    height: 110,
+    width: 110,
+    borderRadius: 55,
+  },
+  playButtonText:{
+    fontSize: 17, fontWeight: '800'
+  },
+  playButtonOn: {
+opacity: 1,
+  },
+  playButtonOff: {
+opacity: 0.2,
   },
 
   buttonsContainer: {
@@ -381,8 +393,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20
+    marginTop: 15,
+    marginBottom: 15
   },
   roundButton: {
 
