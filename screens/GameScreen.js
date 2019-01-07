@@ -55,9 +55,8 @@ class LinksScreen extends React.Component {
       crash: 1,
       jingle: 1,
       expand: new Animated.Value(1),
-      loading: new Animated.Value(1),
-      moveLeft: new Animated.Value(-10),
-
+      startScreenLogoOpacity: new Animated.Value(1),
+      startScreenLogoLeftPosition: new Animated.Value(-10),
       mounted: false
     };
   }
@@ -222,12 +221,12 @@ class LinksScreen extends React.Component {
   async componentDidMount() {
     try {
       await Animated.stagger(1000, [
-        Animated.timing(this.state.loading, {
+        Animated.timing(this.state.startScreenLogoOpacity, {
           toValue: 0,
           duration: 2000,
           delay: 1000
         }),
-        Animated.spring(this.state.moveLeft, {
+        Animated.spring(this.state.startScreenLogoLeftPosition, {
           toValue: 20,
           friction: 0.3
         })
@@ -253,8 +252,8 @@ class LinksScreen extends React.Component {
             style={{
               ...styles.contentContainer,
               top: 200,
-              left: this.state.moveLeft,
-              opacity: this.state.loading
+              left: this.state.startScreenLogoLeftPosition,
+              opacity: this.state.startScreenLogoOpacity
             }}
           >
             <Button
