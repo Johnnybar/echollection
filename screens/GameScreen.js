@@ -45,7 +45,8 @@ class LinksScreen extends React.Component {
       kick: 1,
       hat: 1,
       crash: 1,
-      jingle: 1
+      jingle: 1,
+      expand: new Animated.Value(1)
     }
   }
 
@@ -79,8 +80,15 @@ class LinksScreen extends React.Component {
     this.props.level > 8 ? sounds['jingle'] = require('../assets/sounds/jingle.mp3') : delete sounds.jingle;
     this.props.level > 5 ? sounds['snare'] =  require('../assets/sounds/snare.wav') : delete sounds.snare;
     // When winning the game
-
+    Animated.spring(                  // Animate over time
+    this.state.expand,            // The animated value to drive
+    {
+      toValue: 1,                   // Animate to
+      friction: 10,
+    }
+    ).start()
     try {
+
       //When round playing starts
       let chosen = this._getRandomIntInclusive(sounds)
       //choose current instrument
@@ -114,6 +122,7 @@ class LinksScreen extends React.Component {
       }
       else if (prop) {
         try {
+
           let key = this.state.current;
           playArr.push(key)
           //Blinking effect - lower opacity of current instrument and return it to regular after 100 milliseconds
@@ -137,7 +146,16 @@ class LinksScreen extends React.Component {
     }
 
     _afterSuccessfulTurn = async()=>{
-      this.setState({success: true})
+
+      this.setState({success: true}, ()=>{
+        Animated.spring(                  // Animate over time
+        this.state.expand,            // The animated value to drive
+        {
+          toValue: 1.3,                   // Animate to
+          friction: 1,              // Make it take a while
+        }
+       ).start()
+      })
       this.props.setLevel(this.props.level+1, this.props.speed-50);
       setTimeout(()=>{
       answersArr = []
@@ -146,6 +164,7 @@ class LinksScreen extends React.Component {
       this._randomPlay();
     }, 2000)
     }
+
     _restartGame =async() =>{
       this.setState({gameWon: false}, ()=>{
       answersArr = []
@@ -186,9 +205,12 @@ class LinksScreen extends React.Component {
   componentDidMount() {
     this._prepareSound()
     this.props.setLevel(4, 800)
+
+
   }
 
   render() {
+
     return (<View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         {this.state.gameWon === true && <View><Text style={styles.success}>YOU WON THE GAME, CONGRATS!</Text>
@@ -253,7 +275,7 @@ class LinksScreen extends React.Component {
               }}/>}
 
             </View>
-            <Animated.View style={styles.buttonsContainer}>
+            <Animated.View style={{...styles.buttonsContainer, transform: [{scale: this.state.expand}]}}>
 
             {/*PLAY BUTTON*/}
 
@@ -320,8 +342,6 @@ class LinksScreen extends React.Component {
                 }
               </View>
 
-
-
         </View>}
 
       </ScrollView>
@@ -376,7 +396,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(94, 154, 230, 1)',
     height: 110,
     width: 110,
-    borderRadius: 55,
+    borderRadius: 55
   },
   playButtonText:{
     fontSize: 17, fontWeight: '800'
