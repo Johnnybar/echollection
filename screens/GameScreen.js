@@ -12,12 +12,17 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { gameChangeLevel } from "../actions/actions";
+import fontelloConfig from '../config.json';
+import { createIconSetFromFontello } from 'react-native-vector-icons';
+import { registerCustomIconType, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+const customIcon = createIconSetFromFontello(fontelloConfig);
 
-import { Button, ButtonGroup } from "react-native-elements";
 import { ExpoLinksView } from "@expo/samples";
-import { WebBrowser } from "expo";
+import { WebBrowser, Font } from "expo";
 import { MonoText } from "../components/StyledText";
+import kickdrum  from '../assets/fonts/kickdrum.ttf'
+
 
 const sounds = {
   bell: require("../assets/sounds/bell.mp3"),
@@ -220,6 +225,11 @@ class LinksScreen extends React.Component {
 
   async componentDidMount() {
     try {
+      await Font.loadAsync({
+    kickdrum
+  });
+    await registerCustomIconType('kickdrumIcon', customIcon)
+
       await Animated.stagger(1000, [
         Animated.timing(this.state.startScreenLogoOpacity, {
           toValue: 0,
@@ -230,15 +240,18 @@ class LinksScreen extends React.Component {
           toValue: 20,
           friction: 0.3
         })
-      ]).start();
+      ]).start()
 
       await setTimeout(() => {
+
         this.setState({ mounted: true });
+
       }, 3000);
 
       await this._prepareSound();
       await this.props.setLevel(4, 800);
     } catch (error) {
+      this.setState({errorWhenMounting: true})
       console.log(error);
     }
   }
@@ -246,6 +259,9 @@ class LinksScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        {/*In case of error*/}
+        {this.state.errorWhenMounting  && <View><Text>Sorry, an error has occurred</Text></View>}
+
         {/*If not loaded yet*/}
         {this.state.mounted === false && (
           <Animated.View
@@ -391,6 +407,7 @@ class LinksScreen extends React.Component {
                         this._randomPlay();
                         playTimes = 0;
                         playArr = [];
+                        answersArr =[]
                       }
                     }}
                     textStyle={[
@@ -548,5 +565,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginTop: 3,
     marginLeft: -10
-  }
+  },
+
 });
