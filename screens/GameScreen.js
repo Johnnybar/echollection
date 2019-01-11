@@ -16,13 +16,13 @@ import fontelloConfig from '../config.json';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import { registerCustomIconType, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-const customIcon = createIconSetFromFontello(fontelloConfig);
 
 import { ExpoLinksView } from "@expo/samples";
 import { WebBrowser, Font } from "expo";
 import { MonoText } from "../components/StyledText";
 import kickdrum  from '../assets/fonts/kickdrum.ttf'
-
+const customIcon = createIconSetFromFontello(fontelloConfig);
+import Modules from '../modules/modules'
 
 const sounds = {
   bell: require("../assets/sounds/bell.mp3"),
@@ -78,13 +78,6 @@ class LinksScreen extends React.Component {
     });
   };
 
-  //generate random instrument selection
-  _getRandomIntInclusive = obj => {
-    var result;
-    var count = 0;
-    for (var prop in obj) if (Math.random() < 1 / ++count) result = prop;
-    return result;
-  };
 
   //runs on clicking play button or when last round successful
   _randomPlay = async prop => {
@@ -107,7 +100,7 @@ class LinksScreen extends React.Component {
     ).start();
     try {
       //When round playing starts
-      let chosen = this._getRandomIntInclusive(sounds);
+      let chosen = Modules._getRandomIntInclusive(sounds);
       //choose current instrument
       this.setState(
         {
@@ -407,7 +400,7 @@ class LinksScreen extends React.Component {
                         this._randomPlay();
                         playTimes = 0;
                         playArr = [];
-                        answersArr =[]
+                        answersArr = []
                       }
                     }}
                     textStyle={[
