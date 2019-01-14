@@ -16,14 +16,12 @@ import fontelloConfig from '../config.json';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import { registerCustomIconType, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
-
-import { ExpoLinksView } from "@expo/samples";
 import { WebBrowser, Font } from "expo";
 import { MonoText } from "../components/StyledText";
 import kickdrum  from '../assets/fonts/kickdrum.ttf'
-const customIcon = createIconSetFromFontello(fontelloConfig);
 import Modules from '../modules/modules'
 
+const customIcon = createIconSetFromFontello(fontelloConfig);
 const sounds = {
   bell: require("../assets/sounds/bell.mp3"),
   crash: require("../assets/sounds/crash.wav"),
