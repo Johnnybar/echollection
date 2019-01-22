@@ -12,11 +12,10 @@ import {
   SectionList
 } from 'react-native';
 import {Button, ButtonGroup} from 'react-native-elements';
-import { connect } from 'react-redux'
-import { gameChangeLevel } from '../actions/actions';
+
 import { Constants } from 'expo';
 
-class SettingsScreen extends React.Component {
+export default class InfoScreen extends React.Component {
   static navigationOptions = {
     title: 'Settings',
   };
@@ -65,32 +64,43 @@ class SettingsScreen extends React.Component {
 
     return (
       <ScrollView>
+      <SectionList
+        style={styles.container}
+        renderItem={this._renderItem}
+        renderSectionHeader={this._renderSectionHeader}
+        stickySectionHeadersEnabled={true}
+        keyExtractor={(item, index) => index}
+        ListHeaderComponent={ListHeader}
+        sections={sections}
+      />
 
-
-        <Button style={styles.sectionContentContainer} title="Choose Easy Level" onPress={() => {
-          this.props.setLevel(4, 800);
-          playTimes = 0;
-          playArr = [];
-        }}></Button>
-
-
-      <Button style={styles.sectionContentContainer} title="Medium Level" onPress={() => {
-        this.props.setLevel(6, 600);
-        playTimes = 0;
-        playArr = [];
-      }}></Button>
-      <Button style={styles.sectionContentContainer} title="Hard Level" onPress={() => {
-        this.props.setLevel(8, 400);
-        playTimes = 0;
-        playArr = [];
-      }}></Button>
       </ScrollView>
 
 
     );
   }
 
+  _renderSectionHeader = ({ section }) => {
+    return <SectionHeader title={section.title} />;
+  };
 
+  _renderItem = ({ item }) => {
+    if (item.type === 'color') {
+      return (
+        <SectionContent>
+          {item.value && <Color value={item.value} />}
+        </SectionContent>
+      );
+    } else {
+      return (
+        <SectionContent>
+          <Text style={styles.sectionContentText}>
+            {item.value}
+          </Text>
+        </SectionContent>
+      );
+    }
+  };
 }
 
 const ListHeader = () => {
@@ -233,20 +243,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-
-
-const mapStateToProps = (state) => {
-    return {
-      level: state.level,
-      speed: state.speed
-    }
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setLevel: (level, speed) => dispatch(gameChangeLevel(level, speed))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen)
