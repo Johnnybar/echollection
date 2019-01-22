@@ -14,54 +14,13 @@ import {
 import {Button, ButtonGroup} from 'react-native-elements';
 import { connect } from 'react-redux'
 import { gameChangeLevel } from '../actions/actions';
-import { Constants } from 'expo';
 
 class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'Settings',
   };
   render() {
-    const { manifest } = Constants;
-    const sections = [
-      { data: [{ value: manifest.sdkVersion }], title: 'sdkVersion' },
-      { data: [{ value: manifest.privacy }], title: 'privacy' },
-      { data: [{ value: manifest.version }], title: 'version' },
-      { data: [{ value: manifest.orientation }], title: 'orientation' },
-      {
-        data: [{ value: manifest.primaryColor, type: 'color' }],
-        title: 'primaryColor',
-      },
-      {
-        data: [{ value: manifest.splash && manifest.splash.image }],
-        title: 'splash.image',
-      },
-      {
-        data: [
-          {
-            value: manifest.splash && manifest.splash.backgroundColor,
-            type: 'color',
-          },
-        ],
-        title: 'splash.backgroundColor',
-      },
-      {
-        data: [
-          {
-            value: manifest.splash && manifest.splash.resizeMode,
-          },
-        ],
-        title: 'splash.resizeMode',
-      },
-      {
-        data: [
-          {
-            value:
-              manifest.ios && manifest.ios.supportsTablet ? 'true' : 'false',
-          },
-        ],
-        title: 'ios.supportsTablet',
-      },
-    ];
+
 
     return (
       <ScrollView>
