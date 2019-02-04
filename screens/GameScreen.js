@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   Animated,
-  Alert
+  Alert,
+  ListItem
 } from "react-native";
 import { connect } from "react-redux";
 import { gameChangeLevel } from "../actions/actions";
@@ -220,23 +221,23 @@ class LinksScreen extends React.Component {
       await Font.loadAsync({
         instruments: require('../assets/fonts/instruments.ttf'),
 });
-      await Animated.stagger(1000, [
-        Animated.timing(this.state.startScreenLogoOpacity, {
-          toValue: 0,
-          duration: 2000,
-          delay: 1000
-        }),
-        Animated.spring(this.state.startScreenLogoLeftPosition, {
-          toValue: 20,
-          friction: 0.3
-        })
-      ]).start()
+      // await Animated.stagger(1000, [
+      //   Animated.timing(this.state.startScreenLogoOpacity, {
+      //     toValue: 0,
+      //     duration: 2000,
+      //     delay: 1000
+      //   }),
+      //   Animated.spring(this.state.startScreenLogoLeftPosition, {
+      //     toValue: 20,
+      //     friction: 0.3
+      //   })
+      // ]).start()
 
       await setTimeout(() => {
 
         this.setState({ mounted: true });
 
-      }, 3000);
+      }, 0);//need to change back to 3000 to display welcome
 
       await this._prepareSound();
       await this.props.setLevel(4, 800);
@@ -328,62 +329,72 @@ class LinksScreen extends React.Component {
                   }}
                 />
                 <View style={styles.buttonsContainer}>
-                  <Button
+                  <View style={styles.instrumentContainer}>
+                    <CustomIcon name="kickdrum" size={60}
                     title="KICK"
                     raised
                     rounded
-                    style={{opacity: this.state.kick}}
+                    style={{opacity: this.state.kick, color: "#BF63A6",
+                    // height: 94,
+                    // width: 94,
+                    // borderRadius: 47
+                  }}
                     onPress={() => {
                       this._playerInput("kick");
                     }}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
-                    buttonStyle={{
-                      backgroundColor: "rgba(50, 173, 62, 1)",
-                      height: 94,
-                      width: 94,
-                      borderRadius: 47,
-                    }}
+                    // buttonStyle={{
+                    //   backgroundColor: "rgba(50, 173, 62, 1)",
+                    //   height: 94,
+                    //   width: 94,
+                    //   borderRadius: 47
+                    // }}
                   />
-                  <CustomIcon name="kickdrum" size={80} color="#bf1313" />
-                  <CustomIcon name="jingle" size={80} color="#bf1313" />
-                  <CustomIcon name="snare" size={80} color="#bf1313" />
-                  <CustomIcon name="hat" size={80} color="#bf1313" />
-                  <CustomIcon name="cowbell" size={80} color="#bf1313" />
-                  <CustomIcon name="crash" size={80} color="#bf1313" />
-                  <Button
+                  <Text style={styles.instrumentText}>KICKDRUM</Text>
+                  </View>
+
+
+
+                  <View style={styles.instrumentContainer}>
+                    <CustomIcon name="cowbell" size={80}
                     title="COWBELL"
                     raised
                     rounded
                     onPress={() => {
                       this._playerInput("bell");
                     }}
+                    style={{ opacity: this.state.bell, color: "#8C4D44"}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
-                    buttonStyle={{
-                      backgroundColor: "rgba(163, 77, 11, 1)",
-                      height: 94,
-                      width: 94,
-                      borderRadius: 47,
-
-                      opacity: this.state.bell
-                    }}
+                    // buttonStyle={{
+                    //   backgroundColor: "rgba(163, 77, 11, 1)",
+                    //   height: 94,
+                    //   width: 94,
+                    //   borderRadius: 47,
+                    //
+                    // }}
                   />
+                  <Text style={styles.instrumentText}>COWBELL</Text>
+                </View>
                   {this.props.level > 5 && (
-                    <Button
+                    <View style={styles.instrumentContainer}><CustomIcon name="snare" size={70}
                       title="SNARE"
                       raised
                       rounded
                       onPress={() => {
                         this._playerInput("snare");
                       }}
+                      style={{ opacity: this.state.snare, color:"#FFD447"}}
                       textStyle={{ fontSize: 11, fontWeight: "800" }}
-                      buttonStyle={{
-                        backgroundColor: "rgba(199, 43, 98, 1)",
-                        height: 94,
-                        width: 94,
-                        borderRadius: 47,
-                        opacity: this.state.snare
-                      }}
+                      // buttonStyle={{
+                      //   backgroundColor: "rgba(199, 43, 98, 1)",
+                      //   height: 94,
+                      //   width: 94,
+                      //   borderRadius: 47,
+                      //
+                      // }}
                     />
+                    <Text style={styles.instrumentText}>SNARE</Text>
+                  </View>
                   )}
                 </View>
                 <Animated.View
@@ -421,55 +432,65 @@ class LinksScreen extends React.Component {
                   />
                 </Animated.View>
                 <View style={styles.buttonsContainer}>
-                  <Button
+                  <View style={styles.instrumentContainer}>
+                    <CustomIcon name="hat" size={75}
                     title="HAT"
                     raised
                     rounded
                     onPress={() => {
                       this._playerInput("hat");
                     }}
+                    style={{ opacity: this.state.hat, color: "#700353"}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
-                    buttonStyle={{
-                      backgroundColor: "rgba(255, 140, 0, 1)",
-                      height: 94,
-                      width: 94,
-                      borderRadius: 47,
-                      opacity: this.state.hat
-                    }}
+                    // buttonStyle={{
+                    //   backgroundColor: "rgba(255, 140, 0, 1)",
+                    //   height: 94,
+                    //   width: 94,
+                    //   borderRadius: 47,
+                    //
+                    // }}
                   />
-                  <Button
+                  <Text style={styles.instrumentText}>HAT</Text>
+                </View>
+                  <View style={styles.instrumentContainer}>
+                    <CustomIcon name="crash" size={70}
                     title="CRASH"
                     raised
                     rounded
                     onPress={() => {
                       this._playerInput("crash");
                     }}
+                    style={{ opacity: this.state.crash, color:"#6D8C44"}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
-                    buttonStyle={{
-                      backgroundColor: "rgba(234, 144, 244, 1)",
-                      height: 94,
-                      width: 94,
-                      borderRadius: 47,
-                      opacity: this.state.crash
-                    }}
+                    // buttonStyle={{
+                    //   backgroundColor: "rgba(234, 144, 244, 1)",
+                    //   height: 94,
+                    //   width: 94,
+                    //   borderRadius: 47,
+                    // }}
                   />
+                  <Text style={styles.instrumentText}>CRASH</Text>
+                </View>
                   {this.props.level > 8 && (
-                    <Button
+                    <View style={styles.instrumentContainer}>
+                      <CustomIcon name="jingle" size={65}
                       title="JINGLE"
                       raised
                       rounded
                       onPress={() => {
                         this._playerInput("jingle");
                       }}
+                      style={{ opacity: this.state.jingle, color: "#933600"}}
                       textStyle={{ fontSize: 11, fontWeight: "800" }}
-                      buttonStyle={{
-                        backgroundColor: "rgba(55, 204, 201, 1)",
-                        height: 94,
-                        width: 94,
-                        borderRadius: 47,
-                        opacity: this.state.jingle
-                      }}
+                      // buttonStyle={{
+                      //   backgroundColor: "rgba(55, 204, 201, 1)",
+                      //   height: 94,
+                      //   width: 94,
+                      //   borderRadius: 47,
+                      // }}
                     />
+                    <Text style={styles.instrumentText}>JINGLE</Text>
+                  </View>
                   )}
                 </View>
               </View>
@@ -563,5 +584,28 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: -10
   },
+  instrumentContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 15,
+
+  },
+  instrumentText:{
+    position: "absolute",
+    textAlign: "center",
+    fontSize: 10,
+    textShadowColor: 'white',
+  textShadowOffset: {width: 1, height: 0},
+  textShadowRadius: 10,
+  color:"black",
+overflow: "hidden",
+backgroundColor: "white",
+opacity: 0.9,
+  borderRadius:10,
+borderWidth: 1,
+padding: 3,
+borderColor: 'black'
+  }
 
 });
