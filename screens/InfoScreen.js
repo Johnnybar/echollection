@@ -9,7 +9,8 @@ import {
   View,
   Animated,
   Alert,
-  SectionList
+  SectionList,
+  Linking
 } from 'react-native';
 import {Button, ButtonGroup} from 'react-native-elements';
 
@@ -99,6 +100,9 @@ const ListHeader = () => {
         <Text style={styles.descriptionText}>
           {manifest.description}
         </Text>
+        <Text onPress={()=> Linking.openURL("https://www.flaticon.com/authors/smashicons")}>Icons made </Text><Text onPress={()=> Linking.openURL("https://www.freepik.com")}>by Freepik</Text><Text onPress={()=> Linking.openURL("https://www.flaticon.com")}> from www.flaticon.com </Text><Text onPress={()=> Linking.openURL("http://creativecommons.org/licenses/by/3.0/")}> is licensed by CC 3.0</Text>
+        <Text onPress={()=> Linking.openURL("https://www.flaticon.com/authors/kiranshastry")}>Cowbell icon made </Text><Text onPress={()=> Linking.openURL("https://www.flaticon.com/authors/kiranshastry")}>by kiranshastry</Text><Text onPress={()=> Linking.openURL("https://www.flaticon.com")}> from www.flaticon.com </Text><Text onPress={()=> Linking.openURL("http://creativecommons.org/licenses/by/3.0/")}> is licensed by CC 3.0</Text>
+
       </View>
     </View>
   );
@@ -134,6 +138,7 @@ const AppIconPreview = ({ iconUrl }) => {
       style={{ width: 64, height: 64 }}
       resizeMode="cover"
     />
+
   );
 };
 
@@ -148,6 +153,9 @@ const Color = ({ value }) => {
           <Text style={styles.sectionContentText}>
             {value}
           </Text>
+
+
+        )
         </View>
       </View>
     );

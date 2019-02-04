@@ -12,16 +12,17 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { gameChangeLevel } from "../actions/actions";
-import fontelloConfig from '../config.json';
 import { createIconSetFromFontello } from 'react-native-vector-icons';
+import fontelloConfig from '../config.json';
+
 import { registerCustomIconType, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+const CustomIcon = createIconSetFromFontello(fontelloConfig);
+
+
 import { WebBrowser, Font } from "expo";
 import { MonoText } from "../components/StyledText";
-import kickdrum  from '../assets/fonts/kickdrum.ttf'
 import Modules from '../modules/modules'
-
-const customIcon = createIconSetFromFontello(fontelloConfig);
 const sounds = {
   bell: require("../assets/sounds/bell.mp3"),
   crash: require("../assets/sounds/crash.wav"),
@@ -217,10 +218,8 @@ class LinksScreen extends React.Component {
   async componentDidMount() {
     try {
       await Font.loadAsync({
-    kickdrum
-  });
-    await registerCustomIconType('kickdrumIcon', customIcon)
-
+        instruments: require('../assets/fonts/instruments.ttf'),
+});
       await Animated.stagger(1000, [
         Animated.timing(this.state.startScreenLogoOpacity, {
           toValue: 0,
@@ -333,6 +332,7 @@ class LinksScreen extends React.Component {
                     title="KICK"
                     raised
                     rounded
+                    style={{opacity: this.state.kick}}
                     onPress={() => {
                       this._playerInput("kick");
                     }}
@@ -342,9 +342,14 @@ class LinksScreen extends React.Component {
                       height: 94,
                       width: 94,
                       borderRadius: 47,
-                      opacity: this.state.kick
                     }}
                   />
+                  <CustomIcon name="kickdrum" size={80} color="#bf1313" />
+                  <CustomIcon name="jingle" size={80} color="#bf1313" />
+                  <CustomIcon name="snare" size={80} color="#bf1313" />
+                  <CustomIcon name="hat" size={80} color="#bf1313" />
+                  <CustomIcon name="cowbell" size={80} color="#bf1313" />
+                  <CustomIcon name="crash" size={80} color="#bf1313" />
                   <Button
                     title="COWBELL"
                     raised
@@ -495,6 +500,7 @@ export default connect(
 )(LinksScreen);
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: "#fff",
