@@ -330,7 +330,7 @@ class LinksScreen extends React.Component {
                 />
                 <View style={styles.buttonsContainer}>
                   <View style={styles.instrumentContainer}>
-                    <CustomIcon name="kickdrum" size={60}
+                    <CustomIcon name="kickdrum" size={60} 
                     title="KICK"
                     raised
                     rounded
