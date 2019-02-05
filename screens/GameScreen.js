@@ -12,6 +12,8 @@ import {
   ListItem
 } from "react-native";
 import { connect } from "react-redux";
+import colors from '../assets/vars/colors';
+
 import { gameChangeLevel } from "../actions/actions";
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import fontelloConfig from '../config.json';
@@ -24,6 +26,8 @@ const CustomIcon = createIconSetFromFontello(fontelloConfig);
 import { WebBrowser, Font } from "expo";
 import { MonoText } from "../components/StyledText";
 import Modules from '../modules/modules'
+
+
 const sounds = {
   bell: require("../assets/sounds/bell.mp3"),
   crash: require("../assets/sounds/crash.wav"),
@@ -330,11 +334,11 @@ class LinksScreen extends React.Component {
                 />
                 <View style={styles.buttonsContainer}>
                   <View style={styles.instrumentContainer}>
-                    <CustomIcon name="kickdrum" size={60} 
+                    <CustomIcon name="kickdrum" size={60}
                     title="KICK"
                     raised
                     rounded
-                    style={{opacity: this.state.kick, color: "#BF63A6",
+                    style={{opacity: this.state.kick, color: colors.first,
                     // height: 94,
                     // width: 94,
                     // borderRadius: 47
@@ -363,7 +367,7 @@ class LinksScreen extends React.Component {
                     onPress={() => {
                       this._playerInput("bell");
                     }}
-                    style={{ opacity: this.state.bell, color: "#8C4D44"}}
+                    style={{ opacity: this.state.bell, color: colors.second}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
                     //   backgroundColor: "rgba(163, 77, 11, 1)",
@@ -383,7 +387,7 @@ class LinksScreen extends React.Component {
                       onPress={() => {
                         this._playerInput("snare");
                       }}
-                      style={{ opacity: this.state.snare, color:"#FFD447"}}
+                      style={{ opacity: this.state.snare, color: colors.third}}
                       textStyle={{ fontSize: 11, fontWeight: "800" }}
                       // buttonStyle={{
                       //   backgroundColor: "rgba(199, 43, 98, 1)",
@@ -440,7 +444,7 @@ class LinksScreen extends React.Component {
                     onPress={() => {
                       this._playerInput("hat");
                     }}
-                    style={{ opacity: this.state.hat, color: "#700353"}}
+                    style={{ opacity: this.state.hat, color: colors.fourth}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
                     //   backgroundColor: "rgba(255, 140, 0, 1)",
@@ -460,7 +464,7 @@ class LinksScreen extends React.Component {
                     onPress={() => {
                       this._playerInput("crash");
                     }}
-                    style={{ opacity: this.state.crash, color:"#6D8C44"}}
+                    style={{ opacity: this.state.crash, color: colors.fifth}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
                     //   backgroundColor: "rgba(234, 144, 244, 1)",
@@ -480,7 +484,7 @@ class LinksScreen extends React.Component {
                       onPress={() => {
                         this._playerInput("jingle");
                       }}
-                      style={{ opacity: this.state.jingle, color: "#933600"}}
+                      style={{ opacity: this.state.jingle, color: colors.sixth}}
                       textStyle={{ fontSize: 11, fontWeight: "800" }}
                       // buttonStyle={{
                       //   backgroundColor: "rgba(55, 204, 201, 1)",
@@ -606,6 +610,6 @@ opacity: 0.9,
 borderWidth: 1,
 padding: 3,
 borderColor: 'black'
-  }
+}
 
 });
