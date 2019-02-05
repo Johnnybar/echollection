@@ -599,7 +599,8 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: 15,
+    marginLeft: 15,
+    marginRight: 15
 
   },
   instrumentText:{
@@ -617,6 +618,7 @@ opacity: 0.9,
 borderWidth: 1,
 padding: 3,
 borderColor: 'black'
-}
+},
+
 
 });
