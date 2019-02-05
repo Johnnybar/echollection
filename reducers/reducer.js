@@ -5,5 +5,10 @@ export default function(state = {}, action) {
             speed: action.speed
         });
     }
+    if (action.type == 'GAME_SET_SOUND') {
+        state = Object.assign({}, state, {
+            muted: action.muted
+        });
+    }
     return state;
 }

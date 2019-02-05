@@ -6,3 +6,9 @@ export function gameChangeLevel(level, speed) {
 
     };
 }
+export function gameSetSound(muted) {
+    return {
+      type:'GAME_SET_SOUND',
+          muted: muted
+    };
+}

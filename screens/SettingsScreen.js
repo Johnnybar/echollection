@@ -14,11 +14,19 @@ import {
 import {Button, ButtonGroup} from 'react-native-elements';
 import { connect } from 'react-redux'
 import { gameChangeLevel } from '../actions/actions';
+import { gameSetSound } from '../actions/actions';
 
 class SettingsScreen extends React.Component {
   static navigationOptions = {
     title: 'Settings',
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      muted: false
+    };
+  }
+
   render() {
 
 
@@ -26,6 +34,19 @@ class SettingsScreen extends React.Component {
       <ScrollView>
 
 
+        <Button style={styles.sectionContentContainer} title={this.state.muted === false ? "mute sound" : "turn sound on"} onPress={ () => {
+
+           this.setState(prevState => ({
+       muted: !prevState.muted
+     }), ()=>{
+       this.props.setSound(this.state.muted)
+     // Expo.Audio.setIsEnabledAsync(this.state.muted)
+     // console.log(this.state, 'now here');
+   })
+
+
+
+        }}></Button>
         <Button style={styles.sectionContentContainer} title="Choose Easy Level" onPress={() => {
           this.props.setLevel(4, 800);
           playTimes = 0;
@@ -44,8 +65,6 @@ class SettingsScreen extends React.Component {
         playArr = [];
       }}></Button>
       </ScrollView>
-
-
     );
   }
 
@@ -198,13 +217,15 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
       level: state.level,
-      speed: state.speed
+      speed: state.speed,
+      muted: state.muted
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setLevel: (level, speed) => dispatch(gameChangeLevel(level, speed))
+        setLevel: (level, speed) => dispatch(gameChangeLevel(level, speed)),
+        setSound: (muted) => dispatch(gameSetSound(muted))
     };
 };
 

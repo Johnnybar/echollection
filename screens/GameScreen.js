@@ -9,24 +9,18 @@ import {
   View,
   Animated,
   Alert,
-  ListItem
 } from "react-native";
 import { connect } from "react-redux";
 import colors from '../assets/vars/colors';
-
 import { gameChangeLevel } from "../actions/actions";
 import { createIconSetFromFontello } from 'react-native-vector-icons';
 import fontelloConfig from '../config.json';
-
 import { registerCustomIconType, Button, ButtonGroup } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 const CustomIcon = createIconSetFromFontello(fontelloConfig);
-
-
 import { WebBrowser, Font } from "expo";
 import { MonoText } from "../components/StyledText";
 import Modules from '../modules/modules'
-
 
 const sounds = {
   bell: require("../assets/sounds/bell.mp3"),
@@ -152,10 +146,13 @@ class LinksScreen extends React.Component {
         setTimeout(() => {
           this.setState({ [key]: 1 });
           playTimes++;
-        }, 200);
+        }, 100);
+        if(this.props.muted !== true){
+          console.log('in if muted statement');
         const soundObject = new Expo.Audio.Sound();
         await soundObject.loadAsync(sounds[prop]);
         await soundObject.playAsync();
+        }
         //play a random sound every ___ milliseconds
         setTimeout(() => {
           this._randomPlay();
@@ -333,7 +330,10 @@ class LinksScreen extends React.Component {
                   }}
                 />
                 <View style={styles.buttonsContainer}>
-                  <View style={styles.instrumentContainer}>
+                  <TouchableOpacity style={styles.instrumentContainer}
+                    onPress={() => {
+                      this._playerInput("kick");
+                    }}>
                     <CustomIcon name="kickdrum" size={60}
                     title="KICK"
                     raised
@@ -343,9 +343,7 @@ class LinksScreen extends React.Component {
                     // width: 94,
                     // borderRadius: 47
                   }}
-                    onPress={() => {
-                      this._playerInput("kick");
-                    }}
+
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
                     //   backgroundColor: "rgba(50, 173, 62, 1)",
@@ -355,18 +353,19 @@ class LinksScreen extends React.Component {
                     // }}
                   />
                   <Text style={styles.instrumentText}>KICKDRUM</Text>
-                  </View>
+                  </TouchableOpacity>
 
 
 
-                  <View style={styles.instrumentContainer}>
+                  <TouchableOpacity style={styles.instrumentContainer}
+                    onPress={() => {
+                      this._playerInput("bell");
+                    }}>
                     <CustomIcon name="cowbell" size={80}
                     title="COWBELL"
                     raised
                     rounded
-                    onPress={() => {
-                      this._playerInput("bell");
-                    }}
+
                     style={{ opacity: this.state.bell, color: colors.second}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
@@ -378,15 +377,17 @@ class LinksScreen extends React.Component {
                     // }}
                   />
                   <Text style={styles.instrumentText}>COWBELL</Text>
-                </View>
+                </TouchableOpacity>
                   {this.props.level > 5 && (
-                    <View style={styles.instrumentContainer}><CustomIcon name="snare" size={70}
+                    <TouchableOpacity style={styles.instrumentContainer}
+                      onPress={() => {
+                        this._playerInput("snare");
+                      }}>
+                      <CustomIcon name="snare" size={70}
                       title="SNARE"
                       raised
                       rounded
-                      onPress={() => {
-                        this._playerInput("snare");
-                      }}
+
                       style={{ opacity: this.state.snare, color: colors.third}}
                       textStyle={{ fontSize: 11, fontWeight: "800" }}
                       // buttonStyle={{
@@ -398,7 +399,7 @@ class LinksScreen extends React.Component {
                       // }}
                     />
                     <Text style={styles.instrumentText}>SNARE</Text>
-                  </View>
+                  </TouchableOpacity>
                   )}
                 </View>
                 <Animated.View
@@ -415,6 +416,7 @@ class LinksScreen extends React.Component {
                     rounded
                     onPress={() => {
                       if (this.state.currentlyPlaying !== true) {
+                        // console.log(this.props, 'in button play');
                         this._randomPlay();
                         playTimes = 0;
                         playArr = [];
@@ -436,14 +438,15 @@ class LinksScreen extends React.Component {
                   />
                 </Animated.View>
                 <View style={styles.buttonsContainer}>
-                  <View style={styles.instrumentContainer}>
+                  <TouchableOpacity style={styles.instrumentContainer}
+                    onPress={() => {
+                      this._playerInput("hat");
+                    }}>
                     <CustomIcon name="hat" size={75}
                     title="HAT"
                     raised
                     rounded
-                    onPress={() => {
-                      this._playerInput("hat");
-                    }}
+
                     style={{ opacity: this.state.hat, color: colors.fourth}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
@@ -455,15 +458,16 @@ class LinksScreen extends React.Component {
                     // }}
                   />
                   <Text style={styles.instrumentText}>HAT</Text>
-                </View>
-                  <View style={styles.instrumentContainer}>
+                </TouchableOpacity>
+                  <TouchableOpacity style={styles.instrumentContainer}
+                    onPress={() => {
+                      this._playerInput("crash");
+                    }}>
                     <CustomIcon name="crash" size={70}
                     title="CRASH"
                     raised
                     rounded
-                    onPress={() => {
-                      this._playerInput("crash");
-                    }}
+
                     style={{ opacity: this.state.crash, color: colors.fifth}}
                     textStyle={{ fontSize: 11, fontWeight: "800" }}
                     // buttonStyle={{
@@ -474,16 +478,17 @@ class LinksScreen extends React.Component {
                     // }}
                   />
                   <Text style={styles.instrumentText}>CRASH</Text>
-                </View>
+                </TouchableOpacity>
                   {this.props.level > 8 && (
-                    <View style={styles.instrumentContainer}>
+                    <TouchableOpacity style={styles.instrumentContainer}
+                      onPress={() => {
+                        this._playerInput("jingle");
+                      }}>
                       <CustomIcon name="jingle" size={65}
                       title="JINGLE"
                       raised
                       rounded
-                      onPress={() => {
-                        this._playerInput("jingle");
-                      }}
+
                       style={{ opacity: this.state.jingle, color: colors.sixth}}
                       textStyle={{ fontSize: 11, fontWeight: "800" }}
                       // buttonStyle={{
@@ -494,7 +499,7 @@ class LinksScreen extends React.Component {
                       // }}
                     />
                     <Text style={styles.instrumentText}>JINGLE</Text>
-                  </View>
+                  </TouchableOpacity>
                   )}
                 </View>
               </View>
@@ -509,13 +514,15 @@ class LinksScreen extends React.Component {
 const mapStateToProps = state => {
   return {
     level: state.level,
-    speed: state.speed
+    speed: state.speed,
+    muted: state.muted
+
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLevel: (level, speed) => dispatch(gameChangeLevel(level, speed))
+    setLevel: (level, speed) => dispatch(gameChangeLevel(level, speed)),
   };
 };
 
