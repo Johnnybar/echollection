@@ -32,8 +32,6 @@ class SettingsScreen extends React.Component {
 
     return (
       <ScrollView>
-
-
         <Button style={styles.sectionContentContainer} title={this.state.muted === false ? "mute sound" : "turn sound on"} onPress={ () => {
 
            this.setState(prevState => ({
@@ -43,9 +41,6 @@ class SettingsScreen extends React.Component {
      // Expo.Audio.setIsEnabledAsync(this.state.muted)
      // console.log(this.state, 'now here');
    })
-
-
-
         }}></Button>
         <Button style={styles.sectionContentContainer} title="Choose Easy Level" onPress={() => {
           this.props.setLevel(4, 800);
