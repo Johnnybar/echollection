@@ -83,7 +83,6 @@ class LinksScreen extends React.Component {
 
   //runs on clicking play button or when last round successful
   _randomPlay = async prop => {
-    console.log("in random play");
     //add new instrument when getting to level 5 and 8
 
     this.props.level > 8
@@ -190,7 +189,6 @@ class LinksScreen extends React.Component {
   };
 
   _restartGame = async () => {
-    console.log("in restart game");
     this.setState({ gameWon: false }, () => {
       answersArr = [];
       playArr = [];
@@ -223,7 +221,13 @@ class LinksScreen extends React.Component {
     }
   };
 
+  _onScreenView = () => {
+        console.log('screen is in view');
+    }
+
   async componentDidMount() {
+     this._onScreenView()
+         this.props.navigation.addListener('willFocus', this._onScreenView)
     // if(this.props.reload){
     //   console.log('YYYYYEAH', this.props.reload);
     // }

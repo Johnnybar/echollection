@@ -31,20 +31,26 @@ class CustomTabNavigator extends React.Component {
     super(props);
     this.state = {
       muted: false,
-
     };
   }
   restartFunction = () => {
     console.log('in restart');
     this.setState({restart: true})
   }
-  componentDidMount() {}
+
+
+  componentDidMount() {
+
+  }
+  componentDidUpdate() {
+  }
   render() {
     return (<View style={styles.ActionButtonContainer}>
       <TouchableOpacity style={styles.sideTabLeft} onPress={() => {
           this.props.navigation.navigate('Game')
         }}>
-        <TabBarIcon name={Platform.OS === 'ios'
+        <TabBarIcon focused
+          name={Platform.OS === 'ios'
             ? 'ios-musical-notes'
             : 'md-musical-notes'}/>
       </TouchableOpacity>
@@ -71,7 +77,7 @@ class CustomTabNavigator extends React.Component {
         <ActionButton.Item buttonColor='#3498db' title="Restart" onPress={() => {
             this.setState({
               restart: true
-            }, () => 
+            }, () =>
             this.props.gameRestart(this.state.restart))
 
               // Expo.Audio.setIsEnabledAsync(this.state.muted)
@@ -94,10 +100,10 @@ class CustomTabNavigator extends React.Component {
         </ActionButton.Item>
 
       </ActionButton>
-      <TouchableOpacity onPress={() => {
+      <TouchableOpacity  onPress={() => {
           this.props.navigation.navigate('Settings')
         }} style={styles.sideTabRight}>
-        <TabBarIcon name={Platform.OS === 'ios'
+        <TabBarIcon focused name={Platform.OS === 'ios'
             ? 'ios-settings'
             : 'md-settings'}/>
       </TouchableOpacity>
@@ -119,7 +125,6 @@ export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Custo
 
 const styles = StyleSheet.create({
   ActionButtonContainer: {
-
     backgroundColor: '#f3f3f3',
     marginBottom: 10,
     display: 'flex',
@@ -141,7 +146,9 @@ const styles = StyleSheet.create({
 
     width: 20
   },
+
   hidden: {
     display: 'none'
-  }
+  },
+
 });
