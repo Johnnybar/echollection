@@ -18,7 +18,7 @@ import { Constants } from 'expo';
 
 export default class InfoScreen extends React.Component {
   static navigationOptions = {
-    title: 'Settings',
+    title: 'Info',
   };
   render() {
     const { manifest } = Constants;

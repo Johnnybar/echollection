@@ -2,7 +2,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
-import TabTestIcon from '../components/TabTestIcon';
+import CustomTabNavigator from '../components/CustomTabNavigator';
 import TabBarIcon from '../components/TabBarIcon';
 import InfoScreen from '../screens/InfoScreen';
 import GameScreen from '../screens/GameScreen';
@@ -47,11 +47,13 @@ const SettingsStack = createStackNavigator({
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
 
-  tabBarIcon:
-    <TabTestIcon
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-
+  tabBarIcon:'Settings',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+    focused={focused}
+    name={Platform.OS === 'ios' ? 'ios-settingss' : 'md-settings'}
+  />
+),
 };
 
 
@@ -61,5 +63,6 @@ export default createBottomTabNavigator({
   SettingsStack,
   InfoStack,
 }, {
-  tabBarComponent: TabTestIcon
+  tabBarComponent: CustomTabNavigator
+
 });
