@@ -1,6 +1,8 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import { createSwitchNavigator } from 'react-navigation';
 import MainTabNavigator from './MainTabNavigator';
+import {Tabs} from './MainTabNavigator';
 
 export default createSwitchNavigator({
   // You could add another route here for authentication.

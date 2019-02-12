@@ -57,7 +57,6 @@ SettingsStack.navigationOptions = {
 };
 
 
-
 export default createBottomTabNavigator({
   GameStack,
   SettingsStack,

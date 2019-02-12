@@ -28,7 +28,7 @@ class SettingsScreen extends React.Component {
   }
 
 componentDidMount(){
-  
+
 }
   render() {
 
@@ -65,8 +65,6 @@ componentDidMount(){
       </ScrollView>
     );
   }
-
-
 }
 
 

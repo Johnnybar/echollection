@@ -12,3 +12,9 @@ export function gameSetSound(muted) {
           muted: muted
     };
 }
+export function gameRestart(restart) {
+    return {
+      type:'GAME_RESTART',
+          restart: restart
+    };
+}

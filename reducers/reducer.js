@@ -10,5 +10,10 @@ export default function(state = {}, action) {
             muted: action.muted
         });
     }
+    if (action.type == 'GAME_RESTART') {
+        state = Object.assign({}, state, {
+            restart: action.restart
+        });
+    }
     return state;
 }
