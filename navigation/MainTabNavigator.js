@@ -46,16 +46,20 @@ const SettingsStack = createStackNavigator({
 
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabTestIcon
 
+  tabBarIcon:
+    <TabTestIcon
       name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
     />
-  ),
+
 };
+
+
 
 export default createBottomTabNavigator({
   GameStack,
   SettingsStack,
   InfoStack,
+}, {
+  tabBarComponent: TabTestIcon
 });
