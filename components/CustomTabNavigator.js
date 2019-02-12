@@ -126,7 +126,6 @@ export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Custo
 const styles = StyleSheet.create({
   ActionButtonContainer: {
     backgroundColor: '#f3f3f3',
-    marginBottom: 10,
     display: 'flex',
     justifyContent: 'space-around',
     flexDirection: 'row',
