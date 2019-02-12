@@ -1,10 +1,10 @@
 const colors = {
-  first: '#1495BA',
-  second: "#EBC745",
-  third: "#F16C21",
-  fourth: '#A1B86C',
-  fifth: "#0D3C55",
-  sixth: "#C02E1D",
+  first: '#C3BC7C',
+  second: "#A0807C",
+  third: "#3F7C85",
+  fourth: '#92A2B6',
+  fifth: "#272637",
+  sixth: "#c95e50",
 
 }
 
