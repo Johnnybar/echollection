@@ -189,11 +189,18 @@ class LinksScreen extends React.Component {
   };
 
   _restartGame = async () => {
+    try{
     this.setState({ gameWon: false }, () => {
       answersArr = [];
       playArr = [];
       this.props.setLevel(4, 800);
+
     });
+  }
+  catch (error) {
+
+    console.log(error);
+  }
   };
 
   _playerInput = async prop => {
@@ -226,12 +233,12 @@ class LinksScreen extends React.Component {
     }
 
   async componentDidMount() {
-     this._onScreenView()
-         this.props.navigation.addListener('willFocus', this._onScreenView)
     // if(this.props.reload){
     //   console.log('YYYYYEAH', this.props.reload);
     // }
     try {
+      this._onScreenView()
+      this.props.navigation.addListener('willFocus', this._onScreenView)
       await Font.loadAsync({
         instruments: require("../assets/fonts/instruments.ttf")
       });
