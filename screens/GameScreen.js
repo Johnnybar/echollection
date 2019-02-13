@@ -454,7 +454,7 @@ class LinksScreen extends React.Component {
 
                   <Button
                     title="Play"
-                    raised
+                    
                     rounded
                     onPress={() => {
                       if (this.state.currentlyPlaying !== true) {
