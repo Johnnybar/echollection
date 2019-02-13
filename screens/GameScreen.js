@@ -454,7 +454,7 @@ class LinksScreen extends React.Component {
 
                   <Button
                     title="Play"
-                    
+
                     rounded
                     onPress={() => {
                       if (this.state.currentlyPlaying !== true) {
@@ -580,8 +580,8 @@ const mapDispatchToProps = dispatch => {
     gameRestart: restart => dispatch(gameRestart(restart))
   };
 };
-const marginTop = Platform.OS === 'ios' ? 25 : 3
-const marginBottom = Platform.OS === 'ios' ? 25 : 3
+const marginTop = Platform.OS === 'ios' ? 15 : 3
+const marginBottom = Platform.OS === 'ios' ? 15 : 3
 export default connect(
   mapStateToProps,
   mapDispatchToProps
