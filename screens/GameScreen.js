@@ -336,8 +336,7 @@ class LinksScreen extends React.Component {
               <View style={styles.container}>
                 <View style={styles.progressContainer}>
                   <Text style={styles.progressIndicator}>
-                    Current Level: {this.props.level - 3} {"\n"} Current Speed:{" "}
-                    {this.props.speed / 1000} Seconds
+                    Current Level: {this.props.level - 3} {"\n"}
                   </Text>
                 </View>
 
@@ -591,7 +590,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    display: "flex"
+    display: "flex",
+
   },
   progressContainer: {
     backgroundColor: "black"
@@ -611,7 +611,8 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 0,
-    alignItems: "center"
+    alignItems: "center",
+
   },
   playButtonBg: {
     backgroundColor: "rgba(94, 154, 230, 1)",
@@ -635,7 +636,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     marginTop: 15,
-    marginBottom: 15
+    marginBottom: 10,
+
   },
   roundButton: {},
   welcomeContainer: {

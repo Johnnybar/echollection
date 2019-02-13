@@ -57,8 +57,8 @@ class CustomTabNavigator extends React.Component {
       {/* Rest of App come ABOVE the action button component! */}
       <ActionButton onPress={() => {
         }} radius={100} degrees={180} buttonColor="rgba(231,76,60,1)">
-         <ActionButton.Item title="Game" style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
-          <Icon style={Platform.OS === 'ios' ? styles.hidden : styles.android} />
+         <ActionButton.Item title="Game" buttonColor='transparent' style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
+          <Icon name="ios-volume-off" style={Platform.OS === 'ios' ? styles.hidden : styles.android} />
         </ActionButton.Item>
         <ActionButton.Item buttonColor='#3498db' title="Game" onPress={() => {
 
@@ -95,8 +95,8 @@ class CustomTabNavigator extends React.Component {
               ? 'ios-information-circle'
               : 'md-information-circle'} style={styles.actionButtonIcon}/>
         </ActionButton.Item>
-        <ActionButton.Item  title="Game" style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
-         <Icon style={Platform.OS === 'ios' ? styles.hidden : styles.android} />
+        <ActionButton.Item  title="Game" buttonColor="transparent" style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
+         <Icon name="ios-volume-off" style={Platform.OS === 'ios' ? styles.hidden : styles.android} />
        </ActionButton.Item>
 
       </ActionButton>
@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
     display: 'none'
   },
   android: {
-
-    backgroundColor: 'white'
+    color: 'transparent',
+    backgroundColor: 'transparent'
   }
 
 });
