@@ -336,7 +336,7 @@ class LinksScreen extends React.Component {
               <View style={styles.container}>
                 <View style={styles.progressContainer}>
                   <Text style={styles.progressIndicator}>
-                    Current Level: {this.props.level - 3} {"\n"}
+                    Current Level: {this.props.level - 3}
                   </Text>
                 </View>
 
@@ -350,9 +350,9 @@ class LinksScreen extends React.Component {
                   title="next"
                   textStyle={{ fontSize: 10, fontWeight: "400" }}
                   buttonStyle={{
-                    height: 30,
-                    width: 30,
-                    borderRadius: 10,
+                    height: 23,
+                    width: 23,
+                    borderRadius: 2,
                     padding: 0
                   }}
                   onPress={() => {
@@ -368,7 +368,7 @@ class LinksScreen extends React.Component {
                   >
                     <CustomIcon
                       name="kickdrum"
-                      size={60}
+                      size={60+8}
                       title="KICK"
                       raised
                       rounded
@@ -398,7 +398,7 @@ class LinksScreen extends React.Component {
                   >
                     <CustomIcon
                       name="cowbell"
-                      size={80}
+                      size={80+8}
                       title="COWBELL"
                       raised
                       rounded
@@ -423,7 +423,7 @@ class LinksScreen extends React.Component {
                     >
                       <CustomIcon
                         name="snare"
-                        size={70}
+                        size={70+8}
                         title="SNARE"
                         raised
                         rounded
@@ -488,7 +488,7 @@ class LinksScreen extends React.Component {
                   >
                     <CustomIcon
                       name="hat"
-                      size={75}
+                      size={75+8}
                       title="HAT"
                       raised
                       rounded
@@ -512,7 +512,7 @@ class LinksScreen extends React.Component {
                   >
                     <CustomIcon
                       name="crash"
-                      size={70}
+                      size={70+8}
                       title="CRASH"
                       raised
                       rounded
@@ -536,7 +536,7 @@ class LinksScreen extends React.Component {
                     >
                       <CustomIcon
                         name="jingle"
-                        size={65}
+                        size={65+8}
                         title="JINGLE"
                         raised
                         rounded
@@ -580,11 +580,14 @@ const mapDispatchToProps = dispatch => {
     gameRestart: restart => dispatch(gameRestart(restart))
   };
 };
-
+const marginTop = Platform.OS === 'ios' ? 25 : 3
+const marginBottom = Platform.OS === 'ios' ? 25 : 3
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(LinksScreen);
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -594,13 +597,16 @@ const styles = StyleSheet.create({
 
   },
   progressContainer: {
-    backgroundColor: "black"
+    backgroundColor: "#f3f3f3",
+        borderRadius: 25,
+        color: "black",
+        margin: 10,
   },
   progressIndicator: {
     textAlign: "center",
-    padding: 10,
-    color: "#ffffff",
-    lineHeight: 30
+    padding: 5,
+
+
   },
   success: {
     backgroundColor: "green",
@@ -611,8 +617,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 0,
-    alignItems: "center",
-
+    alignItems: "center"
   },
   playButtonBg: {
     backgroundColor: "rgba(94, 154, 230, 1)",
@@ -635,9 +640,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    marginTop: 15,
-    marginBottom: 10,
-
+    marginTop: marginTop,
+    marginBottom: marginBottom
   },
   roundButton: {},
   welcomeContainer: {
@@ -675,4 +679,4 @@ const styles = StyleSheet.create({
     padding: 3,
     borderColor: "black"
   }
-});
+})

@@ -55,13 +55,12 @@ class CustomTabNavigator extends React.Component {
             : 'md-musical-notes'}/>
       </TouchableOpacity>
       {/* Rest of App come ABOVE the action button component! */}
-      <ActionButton onPress={() => {
-        }} radius={100} degrees={180} buttonColor="rgba(231,76,60,1)">
-         <ActionButton.Item title="Game" buttonColor='transparent' style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
+      <ActionButton radius={Platform.OS === 'ios' ? 85 : 70} degrees={180} buttonColor="rgba(231,76,60,1)">
+         <ActionButton.Item title="Empty" buttonColor='transparent' style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
           <Icon name="ios-volume-off" style={Platform.OS === 'ios' ? styles.hidden : styles.android} />
         </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Game" onPress={() => {
-
+        <ActionButton.Item buttonColor='#3498db' title="Mute" onPress={() => {
+          console.log('pressed');
             this.setState(prevState => ({
               muted: !prevState.muted
             }), () => {
@@ -75,14 +74,13 @@ class CustomTabNavigator extends React.Component {
               : "ios-volume-high"} style={styles.actionButtonIcon}/>
         </ActionButton.Item>
         <ActionButton.Item buttonColor='#3498db' title="Restart" onPress={() => {
+          console.log('pressed');
             this.setState({
               restart: true
             }, () =>
             this.props.gameRestart(this.state.restart))
-
               // Expo.Audio.setIsEnabledAsync(this.state.muted)
               // console.log(this.state, 'now here');
-
           }}>
           <Icon name={Platform.OS === 'ios'
               ? 'ios-refresh'
@@ -120,30 +118,37 @@ const mapDispatchToProps = (dispatch) => {
     gameRestart: (restart) => dispatch(gameRestart(restart))
   };
 };
-
+const height = Platform.OS === 'ios' ? '10%' : '20%';
+const color = Platform.OS === 'ios' ? '#f3f3f3' : 'transparent';
+const tabPlacement = Platform.OS === 'ios' ? 'center' : 'flex-end';
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(CustomTabNavigator))
 
 const styles = StyleSheet.create({
   ActionButtonContainer: {
-    backgroundColor: '#f3f3f3',
+    backgroundColor: color,
     display: 'flex',
+    marginBottom: 10,
     justifyContent: 'space-around',
     flexDirection: 'row',
-    alignItems: 'center',
-    height: '10%'
+    alignItems: tabPlacement,
+    height: height
+
 
   },
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
-    color: 'white'
+    color: 'white',
+
   },
   sideTabLeft: {
-    width: 20
+    width: 30,
+    marginBottom: 10
   },
   sideTabRight: {
 
-    width: 20
+    width: 30,
+    marginBottom: 10
   },
 
   hidden: {
