@@ -55,7 +55,7 @@ class CustomTabNavigator extends React.Component {
             : 'md-musical-notes'}/>
       </TouchableOpacity>
       {/* Rest of App come ABOVE the action button component! */}
-      <ActionButton radius={Platform.OS === 'ios' ? 85 : 70} degrees={180} buttonColor="rgba(231,76,60,1)">
+      <ActionButton radius={Platform.OS === 'ios' ? 100 : 70} degrees={180} buttonColor="rgba(231,76,60,1)">
          <ActionButton.Item title="Empty" buttonColor='transparent' style={Platform.OS === 'ios' ? styles.hidden : styles.android}>
           <Icon name="ios-volume-off" style={Platform.OS === 'ios' ? styles.hidden : styles.android} />
         </ActionButton.Item>

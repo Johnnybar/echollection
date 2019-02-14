@@ -174,7 +174,7 @@ class LinksScreen extends React.Component {
         // Animate over time
         this.state.expand, // The animated value to drive
         {
-          toValue: 1.3, // Animate to
+          toValue: 1.2, // Animate to
           friction: 1 // Make it take a while
         }
       ).start();
@@ -588,7 +588,7 @@ export default connect(
 )(LinksScreen);
 
 
-
+const progressIndicatorMarginBottom = Platform.OS === 'ios' ? 80 : 10
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -600,7 +600,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f3f3f3",
         borderRadius: 25,
         color: "black",
-        margin: 10,
+        marginBottom: progressIndicatorMarginBottom,
   },
   progressIndicator: {
     textAlign: "center",
@@ -621,8 +621,9 @@ const styles = StyleSheet.create({
   },
   playButtonBg: {
     backgroundColor: "rgba(94, 154, 230, 1)",
-    height: 110,
-    width: 110,
+    height: 80,
+    width: 80,
+    margin: 10,
     borderRadius: 55
   },
   playButtonText: {
