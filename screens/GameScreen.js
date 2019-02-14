@@ -588,7 +588,7 @@ export default connect(
 )(LinksScreen);
 
 
-const progressIndicatorMarginBottom = Platform.OS === 'ios' ? 80 : 10
+const progressIndicatorMarginBottom = Platform.OS === 'ios' ? 60 : 10
 const styles = StyleSheet.create({
   container: {
     flex: 1,

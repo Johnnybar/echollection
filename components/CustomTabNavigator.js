@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   ActionButtonContainer: {
     backgroundColor: color,
     display: 'flex',
-    marginBottom: 10,
+
     justifyContent: 'space-around',
     flexDirection: 'row',
     alignItems: tabPlacement,
