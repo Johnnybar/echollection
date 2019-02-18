@@ -594,7 +594,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     display: "flex",
-
   },
   progressContainer: {
     backgroundColor: "#f3f3f3",
@@ -605,8 +604,6 @@ const styles = StyleSheet.create({
   progressIndicator: {
     textAlign: "center",
     padding: 5,
-
-
   },
   success: {
     backgroundColor: "green",
