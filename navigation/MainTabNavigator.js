@@ -1,67 +1,67 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from "react"
+import { Platform } from "react-native"
+import { createStackNavigator, createBottomTabNavigator } from "react-navigation"
 
-import CustomTabNavigator from '../components/CustomTabNavigator';
-import TabBarIcon from '../components/TabBarIcon';
-import InfoScreen from '../screens/InfoScreen';
-import GameScreen from '../screens/GameScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import CustomTabNavigator from "../components/CustomTabNavigator"
+import TabBarIcon from "../components/TabBarIcon"
+import InfoScreen from "../screens/InfoScreen"
+import GameScreen from "../screens/GameScreen"
+import SettingsScreen from "../screens/SettingsScreen"
 const InfoStack = createStackNavigator({
-  Info: InfoScreen,
-});
+	Info: InfoScreen,
+})
 
 InfoStack.navigationOptions = {
-  tabBarLabel: 'Info',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
+	tabBarLabel: "Info",
+	tabBarIcon: ({ focused }) => (
+		<TabBarIcon
+			focused={focused}
+			name={
+				Platform.OS === "ios"
+					? `ios-information-circle${focused ? "" : "-outline"}`
+					: "md-information-circle"
+			}
+		/>
+	),
+}
 
 const GameStack = createStackNavigator({
-  Game: GameScreen,
-});
+	Game: GameScreen,
+})
 
 GameStack.navigationOptions = {
-  tabBarLabel: 'Game',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-musical-notes' : 'md-musical-notes'}
-    />
-  ),
-};
+	tabBarLabel: "Game",
+	tabBarIcon: ({ focused }) => (
+		<TabBarIcon
+			focused={focused}
+			name={Platform.OS === "ios" ? "ios-musical-notes" : "md-musical-notes"}
+		/>
+	),
+}
 
 const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
+	Settings: SettingsScreen,
+})
 
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+	tabBarLabel: "Settings",
 
-  tabBarIcon:'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-    focused={focused}
-    name={Platform.OS === 'ios' ? 'ios-settingss' : 'md-settings'}
-  />
-),
-};
+	tabBarIcon:"Settings",
+	tabBarIcon: ({ focused }) => (
+		<TabBarIcon
+			focused={focused}
+			name={Platform.OS === "ios" ? "ios-settingss" : "md-settings"}
+		/>
+	),
+}
 
 
 export default createBottomTabNavigator({
-  GameStack,
-  SettingsStack,
-  InfoStack,
+	GameStack,
+	SettingsStack,
+	InfoStack,
 }, {
-  tabBarComponent: CustomTabNavigator
+	tabBarComponent: CustomTabNavigator
 
-});
+})
