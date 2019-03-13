@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import {
 	Image,
 	Platform,
@@ -191,7 +191,6 @@ class LinksScreen extends React.Component {
 		} else if (playArr.length === 0) {
 			Alert.alert("Sounds can only be played after play was clicked")
 		} else {
-			// console.log(answersArr.length, playArr.length, playTimes);
 			const soundObject = new Expo.Audio.Sound()
 			await soundObject.loadAsync(sounds[prop])
 			await soundObject.playAsync()
@@ -215,9 +214,7 @@ class LinksScreen extends React.Component {
 	};
 
 	async componentDidMount() {
-		// if(this.props.reload){
-		//   console.log('YYYYYEAH', this.props.reload);
-		// }
+
 		try {
 			this._onScreenView()
 			this.props.navigation.addListener("willFocus", this._onScreenView)
