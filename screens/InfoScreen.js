@@ -13,31 +13,34 @@ import {
 	Linking
 } from "react-native"
 import {Button, ButtonGroup} from "react-native-elements"
+import {createStackNavigator, createAppContainer} from "react-navigation"
 import {withNavigation} from "react-navigation"
-
-
 import { Constants } from "expo"
+
 
 class InfoScreen extends React.Component {
   static navigationOptions = {
   	title: "ECHOLLECTION",
   };
   render() {
+
+  	const credits = "Icons made by Freepik, Cowbell icon made by kiranshastry from www.flaticon.com is licensed by CC 3.0"
   	const { manifest } = Constants
   	const sections = [
   		// { data: [{ value: manifest.sdkVersion }], title: "sdkVersion" },
   		// { data: [{ value: manifest.privacy }], title: "privacy" },
   		{ data: [{ value: manifest.version }], title: "version" },
+  		{ data: [{ value: credits }], title: "Credits" },
   		// { data: [{ value: manifest.orientation }], title: "orientation" },
-  		{
-  			data: [
-  				{
-  					value:
-              manifest.ios && manifest.ios.supportsTablet ? "true" : "false",
-  				},
-  			],
-  			title: "ios.supportsTablet",
-  		},
+  		// {
+  		// 	data: [
+  		// 		{
+  		// 			value:
+  		//         manifest.ios && manifest.ios.supportsTablet ? "true" : "false",
+  		// 		},
+  		// 	],
+  		// 	title: "ios.supportsTablet",
+  		// },
   	]
 
   	return (
@@ -88,9 +91,10 @@ const ListHeader = () => {
 		<View style={styles.titleContainer}>
 			<Image source={require("../assets/images/ball.jpg")} style={styles.backgroundImage} />
 			<View style={styles.buttonImagesContainer}>
-				<TouchableOpacity><Image onPress={() => {
-  				this.props.navigation.navigate("Game")
-  			}} source={require("../assets/images/home-play.png")} style={[styles.buttonImages, styles.playButton]}/></TouchableOpacity>
+				<TouchableOpacity onPress={() => {
+  				// this.props.navigation.navigate("Game")
+					console.log(this.props)
+  			}}><Image source={require("../assets/images/home-play.png")} style={[styles.buttonImages, styles.playButton]}/></TouchableOpacity>
 				<TouchableOpacity><Image source={require("../assets/images/home-settings.png")} style={[styles.buttonImages, styles.settingsButton]}/></TouchableOpacity>
 				<TouchableOpacity><Image source={require("../assets/images/home-sound.png")}  style={[styles.buttonImages, styles.homeButton]}/></TouchableOpacity>
 			</View>
