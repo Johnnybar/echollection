@@ -51,16 +51,16 @@ SettingsStack.navigationOptions = {
 	tabBarIcon: ({ focused }) => (
 		<TabBarIcon
 			focused={focused}
-			name={Platform.OS === "ios" ? "ios-settingss" : "md-settings"}
+			name={Platform.OS === "ios" ? "ios-settings" : "md-settings"}
 		/>
 	),
 }
 
 
 export default createBottomTabNavigator({
+	InfoStack,
 	GameStack,
 	SettingsStack,
-	InfoStack,
 }, {
 	tabBarComponent: CustomTabNavigator
 

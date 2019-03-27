@@ -46,8 +46,8 @@ class CustomTabNavigator extends React.Component {
 				this.props.navigation.navigate("Game")
 			}}>
 				<TabBarIcon focused="focused" name={Platform.OS === "ios"
-					? "ios-musical-notes"
-					: "md-musical-notes"}/>
+					? "ios-play"
+					: "md-play"}/>
 			</TouchableOpacity>
 			{/* Rest of App come ABOVE the action button component! */}
 			<ActionButton radius={Platform.OS === "ios"
@@ -90,8 +90,8 @@ class CustomTabNavigator extends React.Component {
 					this.props.navigation.navigate("Info")
 				}}>
 					<Icon name={Platform.OS === "ios"
-						? "ios-information-circle"
-						: "md-information-circle"} style={styles.actionButtonIcon}/>
+						? "ios-home"
+						: "md-home"} style={styles.actionButtonIcon}/>
 				</ActionButton.Item>
 				<ActionButton.Item title="Game" buttonColor="transparent" style={Platform.OS === "ios"
 					? styles.hidden
