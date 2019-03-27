@@ -13,10 +13,12 @@ import {
 	Linking
 } from "react-native"
 import {Button, ButtonGroup} from "react-native-elements"
+import {withNavigation} from "react-navigation"
+
 
 import { Constants } from "expo"
 
-export default class InfoScreen extends React.Component {
+class InfoScreen extends React.Component {
   static navigationOptions = {
   	title: "ECHOLLECTION",
   };
@@ -84,6 +86,14 @@ const ListHeader = () => {
 
 	return (
 		<View style={styles.titleContainer}>
+			<Image source={require("../assets/images/ball.jpg")} style={styles.backgroundImage} />
+			<View style={styles.buttonImagesContainer}>
+				<TouchableOpacity><Image onPress={() => {
+  				this.props.navigation.navigate("Game")
+  			}} source={require("../assets/images/home-play.png")} style={[styles.buttonImages, styles.playButton]}/></TouchableOpacity>
+				<TouchableOpacity><Image source={require("../assets/images/home-settings.png")} style={[styles.buttonImages, styles.settingsButton]}/></TouchableOpacity>
+				<TouchableOpacity><Image source={require("../assets/images/home-sound.png")}  style={[styles.buttonImages, styles.homeButton]}/></TouchableOpacity>
+			</View>
 			{/* <View style={styles.titleIconContainer}>
 				<AppIconPreview iconUrl={manifest.iconUrl} />
 			</View>
@@ -162,16 +172,48 @@ const Color = ({ value }) => {
 	}
 }
 
+
+export default withNavigation(InfoScreen)
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
 	},
+	backgroundImage: {
+		width: "200%",
+		height: 300,
+		left: "-50%",
+		right: "50%",
+		resizeMode: "cover",
+	},
+	buttonImagesContainer:{
+		position: "absolute",
+		width: "100%",
+		left: "50%",
+		top: "20%",
+
+	},
+	buttonImages: {
+		width: 70,
+		height: 70,
+		resizeMode: "stretch",
+	},
+	playButton: {
+		marginLeft: "-30%"
+	},
+	settingsButton: {
+		marginLeft: "-5%"
+	},
+	homeButton: {
+		marginLeft: "20%"
+	},
 	titleContainer: {
 		paddingHorizontal: 15,
-		paddingTop: 15,
+		paddingTop: 15-15,
 		paddingBottom: 15,
-		flexDirection: "row",
+		flexDirection: "column",
+		position:"relative"
 	},
 	titleIconContainer: {
 		marginRight: 15,

@@ -131,6 +131,7 @@ const color = Platform.OS === "ios"
 const tabPlacement = Platform.OS === "ios"
 	? "center"
 	: "flex-end"
+	
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(CustomTabNavigator))
 
 const styles = StyleSheet.create({
