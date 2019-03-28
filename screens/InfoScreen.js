@@ -14,7 +14,9 @@ import {
 } from "react-native"
 import {Button, ButtonGroup} from "react-native-elements"
 import {createStackNavigator, createAppContainer} from "react-navigation"
+import {connect} from "react-redux"
 import {withNavigation} from "react-navigation"
+import {gameSetSound} from "../actions/actions"
 import {Constants} from "expo"
 
 class InfoScreen extends React.Component {
@@ -23,11 +25,10 @@ class InfoScreen extends React.Component {
 	};
 
 	componentDidMount(){
-		const navigate = this.props.navigation
-		console.log(navigate)
+
 	}
 	render() {
-		let navigate = navigate
+		let navigate = this.props.navigation
 		const credits = "Icons made by Freepik, Cowbell icon made by kiranshastry from www.flaticon.com is licensed by CC 3.0"
 		const {manifest} = Constants
 		const sections = [
@@ -98,7 +99,7 @@ const ListHeader = (navigate) => {
 				navigate.navigate("Settings")
 			}}><Image source={require("../assets/images/home-settings.png")} style={[styles.buttonImages, styles.settingsButton]}/></TouchableOpacity>
 			<TouchableOpacity onPress={() =>{
-				navigate.navigate("Game")
+				navigate.navigate("Settings")
 			}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton]}/></TouchableOpacity>
 		</View>
 		{/* <View style={styles.titleIconContainer}>
@@ -173,7 +174,19 @@ const Color = ({value}) => {
 	}
 }
 
-export default withNavigation(InfoScreen)
+const mapStateToProps = (state) => {
+	return { muted: state.muted}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		setSound: (muted) => dispatch(gameSetSound(muted))
+	}
+}
+
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(InfoScreen))
+
+
 
 const styles = StyleSheet.create({
 	container: {

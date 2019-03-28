@@ -14,7 +14,6 @@ import {
 import {gameSetSound} from "../actions/actions"
 import {gameRestart} from "../actions/actions"
 import {connect} from "react-redux"
-
 import Icon from "react-native-vector-icons/Ionicons"
 import ActionButton from "react-native-circular-action-menu"
 import Colors from "../constants/Colors"
