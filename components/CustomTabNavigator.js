@@ -87,11 +87,11 @@ class CustomTabNavigator extends React.Component {
 						: "md-refresh"} style={styles.actionButtonIcon}/>
 				</ActionButton.Item>
 				<ActionButton.Item buttonColor='#3498db' title="Info" onPress={() => {
-					this.props.navigation.navigate("Info")
+					this.props.navigation.navigate("Settings")
 				}}>
 					<Icon name={Platform.OS === "ios"
-						? "ios-home"
-						: "md-home"} style={styles.actionButtonIcon}/>
+						? "ios-settings"
+						: "md-settings"} style={styles.actionButtonIcon}/>
 				</ActionButton.Item>
 				<ActionButton.Item title="Game" buttonColor="transparent" style={Platform.OS === "ios"
 					? styles.hidden
@@ -103,11 +103,11 @@ class CustomTabNavigator extends React.Component {
 
 			</ActionButton>
 			<TouchableOpacity onPress={() => {
-				this.props.navigation.navigate("Settings")
+				this.props.navigation.navigate("Info")
 			}} style={styles.sideTabRight}>
 				<TabBarIcon focused="focused" name={Platform.OS === "ios"
-					? "ios-settings"
-					: "md-settings"}/>
+					? "ios-home"
+					: "md-home"}/>
 			</TouchableOpacity>
 		</View>)
 	}
@@ -131,7 +131,7 @@ const color = Platform.OS === "ios"
 const tabPlacement = Platform.OS === "ios"
 	? "center"
 	: "flex-end"
-	
+
 export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(CustomTabNavigator))
 
 const styles = StyleSheet.create({

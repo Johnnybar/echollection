@@ -7,6 +7,8 @@ import TabBarIcon from "../components/TabBarIcon"
 import InfoScreen from "../screens/InfoScreen"
 import GameScreen from "../screens/GameScreen"
 import SettingsScreen from "../screens/SettingsScreen"
+import {withNavigation} from "react-navigation"
+
 const InfoStack = createStackNavigator({
 	Info: InfoScreen,
 })
