@@ -31,7 +31,7 @@ class SettingsScreen extends React.Component {
 	render() {
 
 		return (<ScrollView>
-			<Button style={styles.sectionContentContainer} title={this.state.muted === false
+			<Button style={styles.sectionContentContainer} title={this.props.muted === false
 				? "mute sound"
 				: "turn sound on"} onPress={() => {
 

@@ -69,7 +69,7 @@ class CustomTabNavigator extends React.Component {
 						// console.log(this.state, 'now here');
 					})
 				}}>
-					<Icon name={this.state.muted === false
+					<Icon name={this.props.muted === false
 						? "ios-volume-off"
 						: "ios-volume-high"} style={styles.actionButtonIcon}/>
 				</ActionButton.Item>

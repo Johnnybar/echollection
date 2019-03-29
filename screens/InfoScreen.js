@@ -94,7 +94,7 @@ class InfoScreen extends React.Component {
 								this.props.setSound(this.state.muted)
 							})
 						}
-					}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton, this.state && this.state.muted === true ? {opacity: 0.5} : {opacity: 1}]}/></TouchableOpacity>
+					}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton, this.props && this.props.muted === true ? {opacity: 0.5} : {opacity: 1}]}/></TouchableOpacity>
 				</View>
 				<ScrollView>
 					<SectionList style={styles.container} renderItem={this._renderItem} renderSectionHeader={this._renderSectionHeader} stickySectionHeadersEnabled={true} keyExtractor={(item, index) => index}  sections={sections}/>
