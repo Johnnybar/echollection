@@ -34,6 +34,7 @@ class InfoScreen extends React.Component {
 
 	}
 	render() {
+
 		let navigate = this.props.navigation
 		const credits = "Icons made by Freepik, Cowbell icon made by kiranshastry from www.flaticon.com is licensed by CC 3.0"
 		const {manifest} = Constants
@@ -80,32 +81,23 @@ class InfoScreen extends React.Component {
 					<TouchableOpacity onPress={() =>{
 						console.log(this.props)
 						if(this.props.muted === undefined){
-							console.log("in if")
 							this.setState(() => ({
-								muted: true
+								muted: true,
 							}), () => {
 								this.props.setSound(this.state.muted)
-								console.log(this.state)
-								// Expo.Audio.setIsEnabledAsync(this.state.muted)
-								// console.log(this.state, 'now here');
 							})
 						}
 						else{
-							console.log("in else")
 							this.setState(prevState => ({
 								muted: !prevState.muted
 							}), () => {
 								this.props.setSound(this.state.muted)
-							// Expo.Audio.setIsEnabledAsync(this.state.muted)
-							// console.log(this.state, 'now here');
 							})
 						}
-					}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton]}/></TouchableOpacity>
+					}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton, this.state && this.state.muted === true ? {opacity: 0.5} : {opacity: 1}]}/></TouchableOpacity>
 				</View>
 				<ScrollView>
-
 					<SectionList style={styles.container} renderItem={this._renderItem} renderSectionHeader={this._renderSectionHeader} stickySectionHeadersEnabled={true} keyExtractor={(item, index) => index}  sections={sections}/>
-
 				</ScrollView>
 			</View>)
 	}
