@@ -23,6 +23,12 @@ class InfoScreen extends React.Component {
 	static navigationOptions = {
 		title: "ECHOLLECTION"
 	};
+	constructor(props) {
+		super(props)
+		// this.state = {
+		// 	muted: false
+		// }
+	}
 
 	componentDidMount(){
 
@@ -61,10 +67,47 @@ class InfoScreen extends React.Component {
 			// },
 		]
 
-		return (<ScrollView>
-			<SectionList style={styles.container} renderItem={this._renderItem} renderSectionHeader={this._renderSectionHeader} stickySectionHeadersEnabled={true} keyExtractor={(item, index) => index} ListHeaderComponent={ListHeader(this.props.navigation)} sections={sections}/>
+		return (
+			<View style={styles.titleContainer}>
+				<Image source={require("../assets/images/ball.jpg")} style={styles.backgroundImage}/>
+				<View style={styles.buttonImagesContainer}>
+					<TouchableOpacity onPress={() =>{
+						navigate.navigate("Game")
+					}}><Image source={require("../assets/images/home-play.png")} style={[styles.buttonImages, styles.playButton]}/></TouchableOpacity>
+					<TouchableOpacity onPress={() =>{
+						navigate.navigate("Settings")
+					}}><Image source={require("../assets/images/home-settings.png")} style={[styles.buttonImages, styles.settingsButton]}/></TouchableOpacity>
+					<TouchableOpacity onPress={() =>{
+						console.log(this.props)
+						if(this.props.muted === undefined){
+							console.log("in if")
+							this.setState(() => ({
+								muted: true
+							}), () => {
+								this.props.setSound(this.state.muted)
+								console.log(this.state)
+								// Expo.Audio.setIsEnabledAsync(this.state.muted)
+								// console.log(this.state, 'now here');
+							})
+						}
+						else{
+							console.log("in else")
+							this.setState(prevState => ({
+								muted: !prevState.muted
+							}), () => {
+								this.props.setSound(this.state.muted)
+							// Expo.Audio.setIsEnabledAsync(this.state.muted)
+							// console.log(this.state, 'now here');
+							})
+						}
+					}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton]}/></TouchableOpacity>
+				</View>
+				<ScrollView>
 
-		</ScrollView>)
+					<SectionList style={styles.container} renderItem={this._renderItem} renderSectionHeader={this._renderSectionHeader} stickySectionHeadersEnabled={true} keyExtractor={(item, index) => index}  sections={sections}/>
+
+				</ScrollView>
+			</View>)
 	}
 
 	_renderSectionHeader = ({section}) => {
@@ -86,45 +129,7 @@ class InfoScreen extends React.Component {
 	};
 }
 
-const ListHeader = (navigate) => {
-	const {manifest} = Constants
 
-	return (<View style={styles.titleContainer}>
-		<Image source={require("../assets/images/ball.jpg")} style={styles.backgroundImage}/>
-		<View style={styles.buttonImagesContainer}>
-			<TouchableOpacity onPress={() =>{
-				navigate.navigate("Game")
-			}}><Image source={require("../assets/images/home-play.png")} style={[styles.buttonImages, styles.playButton]}/></TouchableOpacity>
-			<TouchableOpacity onPress={() =>{
-				navigate.navigate("Settings")
-			}}><Image source={require("../assets/images/home-settings.png")} style={[styles.buttonImages, styles.settingsButton]}/></TouchableOpacity>
-			<TouchableOpacity onPress={() =>{
-				navigate.navigate("Settings")
-			}}><Image source={require("../assets/images/home-sound.png")} style={[styles.buttonImages, styles.homeButton]}/></TouchableOpacity>
-		</View>
-		{/* <View style={styles.titleIconContainer}>
-				<AppIconPreview iconUrl={manifest.iconUrl} />
-			</View>
-
-			<View style={styles.titleTextContainer}>
-				<Text style={styles.nameText} numberOfLines={1}>
-					{manifest.name}
-				</Text>
-
-				<Text style={styles.slugText} numberOfLines={1}>
-					{manifest.slug}
-				</Text>
-
-				<Text style={styles.descriptionText}>
-					{manifest.description}
-				</Text>
-				<Text onPress={()=> Linking.openURL("https://www.flaticon.com/authors/smashicons")}>Icons made </Text><Text onPress={()=> Linking.openURL("https://www.freepik.com")}>by Freepik</Text><Text onPress={()=> Linking.openURL("https://www.flaticon.com")}> from www.flaticon.com </Text><Text onPress={()=> Linking.openURL("http://creativecommons.org/licenses/by/3.0/")}> is licensed by CC 3.0</Text>
-				<Text onPress={()=> Linking.openURL("https://www.flaticon.com/authors/kiranshastry")}>Cowbell icon made </Text><Text onPress={()=> Linking.openURL("https://www.flaticon.com/authors/kiranshastry")}>by kiranshastry</Text><Text onPress={()=> Linking.openURL("https://www.flaticon.com")}> from www.flaticon.com </Text><Text onPress={()=> Linking.openURL("http://creativecommons.org/licenses/by/3.0/")}> is licensed by CC 3.0</Text>
-
-			</View> */
-		}
-	</View>)
-}
 
 const SectionHeader = ({title}) => {
 	return (<View style={styles.sectionHeaderContainer}>
