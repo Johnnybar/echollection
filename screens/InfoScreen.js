@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		width: "100%",
 		left: "50%",
-		top: "20%"
+		top: "15%"
 	},
 	buttonImages: {
 		width: 70,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
 	},
 	titleContainer: {
 		paddingHorizontal: 15,
-		paddingTop: 15 - 15,
+		paddingTop: 15,
 		paddingBottom: 15,
 		flexDirection: "column",
 		position: "relative"

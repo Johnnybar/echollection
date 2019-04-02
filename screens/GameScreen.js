@@ -444,21 +444,9 @@ class LinksScreen extends React.Component {
 										color: colors.fourth
 									}} textStyle={{
 										fontSize: 11,
-										fontWeight: "800"
+										fontWeight: "800",
+
 									}}
-										// buttonStyle={{
-
-										//   backgroundColor: "rgba(255, 140, 0, 1)",
-
-										//   height: 94,
-
-										//   width: 94,
-
-										//   borderRadius: 47,
-
-										//
-
-										// }}
 									/>
 									<Text style={styles.instrumentText}>HAT</Text>
 								</TouchableOpacity>
@@ -613,9 +601,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		marginLeft: 10,
 		marginRight: 10,
-		borderRadius: 50,
-		borderWidth: 2,
-		borderColor: "rgba(0, 0, 0, 0.2)",
 		padding: 7
 	},
 	instrumentText: {
