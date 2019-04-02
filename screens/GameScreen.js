@@ -83,10 +83,19 @@ class LinksScreen extends React.Component {
 		//add new instrument when getting to level 5 and 8
 
 		this.props.level > 8
-			? (sounds["jingle"] = require("../assets/sounds/jingle.mp3"))
+			?
+			(sounds["jingle"] = require("../assets/sounds/jingle.mp3"),
+			this.setState({marginTopCrash: true})
+			)
+
+
 			: delete sounds.jingle
 		this.props.level > 5
-			? (sounds["snare"] = require("../assets/sounds/snare.wav"))
+
+			? (
+				sounds["snare"] = require("../assets/sounds/snare.wav"),
+				this.setState({marginTop: true})
+			)
 			: delete sounds.snare
 		// When winning the game
 		Animated.spring(
@@ -216,6 +225,7 @@ class LinksScreen extends React.Component {
 	async componentDidMount() {
 
 		try {
+
 			this._onScreenView()
 			this.props.navigation.addListener("willFocus", this._onScreenView)
 			await Font.loadAsync({instruments: require("../assets/fonts/instruments.ttf")})
@@ -251,6 +261,7 @@ class LinksScreen extends React.Component {
 			playArr = []
 			answersArr = []
 		}
+
 	}
 	render() {
 		return (<View style={styles.container}>
@@ -324,7 +335,7 @@ class LinksScreen extends React.Component {
 								this._afterSuccessfulTurn()
 							}}/>
 							<View style={styles.buttonsContainer}>
-								<TouchableOpacity style={styles.instrumentContainer} onPress={() => {
+								<TouchableOpacity style={ this.state.marginTop === true ? styles.marginTop : styles.instrumentContainer} onPress={() => {
 									this._playerInput("kick")
 								}}>
 									<CustomIcon name="kickdrum" size={60 + 6} title="KICK" raised rounded style={{
@@ -354,7 +365,7 @@ class LinksScreen extends React.Component {
 									<Text style={styles.instrumentText}>COWBELL</Text>
 								</TouchableOpacity>
 								{
-									this.props.level > 5 && (<TouchableOpacity style={styles.instrumentContainer} onPress={() => {
+									this.props.level > 5 && (<TouchableOpacity style={this.state.marginTop === true ? styles.marginTop : styles.instrumentContainer} onPress={() => {
 										this._playerInput("snare")
 									}}>
 										<CustomIcon name="snare" size={70 + 6} title="SNARE" raised rounded style={{
@@ -380,7 +391,7 @@ class LinksScreen extends React.Component {
 							}}>
 								{/* PLAY BUTTON */}
 
-								<Button title="Play" rounded onPress={() => {
+								<Button title="Play!" rounded onPress={() => {
 									if (this.state.currentlyPlaying !== true) {
 										// console.log(this.props, 'in button play');
 										this._randomPlay()
@@ -413,7 +424,7 @@ class LinksScreen extends React.Component {
 									/>
 									<Text style={styles.instrumentText}>HAT</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={styles.instrumentContainer} onPress={() => {
+								<TouchableOpacity style={this.state.marginTopCrash === true ? styles.marginTopCrash : styles.instrumentContainer} onPress={() => {
 									this._playerInput("crash")
 								}}>
 									<CustomIcon name="crash" size={70 + 6} title="CRASH" raised rounded style={{
@@ -500,13 +511,13 @@ const styles = StyleSheet.create({
 	},
 	playButtonBg: {
 		backgroundColor: "rgba(94, 154, 230, 1)",
-		height: 80,
-		width: 80,
-		margin: 10,
+		height: 75,
+		width: 75,
+		margin: 2,
 		borderRadius: 55
 	},
 	playButtonText: {
-		fontSize: 17,
+		fontSize: 15,
 		fontWeight: "800"
 	},
 	playButtonOn: {
@@ -562,5 +573,24 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		padding: 3,
 		borderColor: "black"
+	},
+	marginTop: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		marginLeft: 10,
+		marginRight: 10,
+		padding: 7,
+		marginTop: 50
+	},
+	marginTopCrash: {
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		marginLeft: 10,
+		marginRight: 10,
+		padding: 7,
+		marginTop: 50
 	}
+
 })
