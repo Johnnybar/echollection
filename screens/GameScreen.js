@@ -330,24 +330,11 @@ class LinksScreen extends React.Component {
 									<CustomIcon name="kickdrum" size={60 + 6} title="KICK" raised rounded style={{
 										opacity: this.state.kick,
 										color: colors.first
-										// height: 94,
-										// width: 94,
-										// borderRadius: 47
 									}} textStyle={{
 										fontSize: 11,
 										fontWeight: "800"
 									}}
-										// buttonStyle={{
 
-										//   backgroundColor: "rgba(50, 173, 62, 1)",
-
-										//   height: 94,
-
-										//   width: 94,
-
-										//   borderRadius: 47
-
-										// }}
 									/>
 									<Text style={styles.instrumentText}>KICKDRUM</Text>
 								</TouchableOpacity>
@@ -362,19 +349,7 @@ class LinksScreen extends React.Component {
 										fontSize: 11,
 										fontWeight: "800"
 									}}
-										// buttonStyle={{
 
-										//   backgroundColor: "rgba(163, 77, 11, 1)",
-
-										//   height: 94,
-
-										//   width: 94,
-
-										//   borderRadius: 47,
-
-										//
-
-										// }}
 									/>
 									<Text style={styles.instrumentText}>COWBELL</Text>
 								</TouchableOpacity>
@@ -389,19 +364,7 @@ class LinksScreen extends React.Component {
 											fontSize: 11,
 											fontWeight: "800"
 										}}
-											// buttonStyle={{
 
-											//   backgroundColor: "rgba(199, 43, 98, 1)",
-
-											//   height: 94,
-
-											//   width: 94,
-
-											//   borderRadius: 47,
-
-											//
-
-											// }}
 										/>
 										<Text style={styles.instrumentText}>SNARE</Text>
 									</TouchableOpacity>)
@@ -460,17 +423,6 @@ class LinksScreen extends React.Component {
 										fontSize: 11,
 										fontWeight: "800"
 									}}
-										// buttonStyle={{
-
-										//   backgroundColor: "rgba(234, 144, 244, 1)",
-
-										//   height: 94,
-
-										//   width: 94,
-
-										//   borderRadius: 47,
-
-										// }}
 									/>
 									<Text style={styles.instrumentText}>CRASH</Text>
 								</TouchableOpacity>
@@ -485,17 +437,6 @@ class LinksScreen extends React.Component {
 											fontSize: 11,
 											fontWeight: "800"
 										}}
-											// buttonStyle={{
-
-											//   backgroundColor: "rgba(55, 204, 201, 1)",
-
-											//   height: 94,
-
-											//   width: 94,
-
-											//   borderRadius: 47,
-
-											// }}
 										/>
 										<Text style={styles.instrumentText}>JINGLE</Text>
 									</TouchableOpacity>)
